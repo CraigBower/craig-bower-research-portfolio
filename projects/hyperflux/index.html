@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Craig Bower">
+<meta name="dcterms.date" content="2026-09-21">
+
+<title>HyperFlux: Building a Scientific Digital Twin That Learns – Craig Bower</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-010da2a2fc40747cac3973d122291414.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Craig Bower</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../writing.html"> 
+<span class="menu-text">Writing</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#why-an-ordinary-machine-learning-model-is-not-enough" id="toc-why-an-ordinary-machine-learning-model-is-not-enough" class="nav-link active" data-scroll-target="#why-an-ordinary-machine-learning-model-is-not-enough">Why an ordinary machine-learning model is not enough</a></li>
+  <li><a href="#starting-with-the-carbon-balance" id="toc-starting-with-the-carbon-balance" class="nav-link" data-scroll-target="#starting-with-the-carbon-balance">Starting with the carbon balance</a></li>
+  <li><a href="#learning-physical-behaviour-from-observations" id="toc-learning-physical-behaviour-from-observations" class="nav-link" data-scroll-target="#learning-physical-behaviour-from-observations">Learning physical behaviour from observations</a></li>
+  <li><a href="#why-represent-the-system-as-a-graph" id="toc-why-represent-the-system-as-a-graph" class="nav-link" data-scroll-target="#why-represent-the-system-as-a-graph">Why represent the system as a graph?</a></li>
+  <li><a href="#regional-knowledge-and-local-memory" id="toc-regional-knowledge-and-local-memory" class="nav-link" data-scroll-target="#regional-knowledge-and-local-memory">Regional knowledge and local memory</a></li>
+  <li><a href="#what-self-learning-means-here" id="toc-what-self-learning-means-here" class="nav-link" data-scroll-target="#what-self-learning-means-here">What self-learning means here</a></li>
+  <li><a href="#quantifying-uncertainty" id="toc-quantifying-uncertainty" class="nav-link" data-scroll-target="#quantifying-uncertainty">Quantifying uncertainty</a></li>
+  <li><a href="#counterfactual-questions" id="toc-counterfactual-questions" class="nav-link" data-scroll-target="#counterfactual-questions">Counterfactual questions</a></li>
+  <li><a href="#looking-into-future-conditions" id="toc-looking-into-future-conditions" class="nav-link" data-scroll-target="#looking-into-future-conditions">Looking into future conditions</a></li>
+  <li><a href="#the-harder-problem-fields-without-flux-towers" id="toc-the-harder-problem-fields-without-flux-towers" class="nav-link" data-scroll-target="#the-harder-problem-fields-without-flux-towers">The harder problem: fields without flux towers</a></li>
+  <li><a href="#what-happens-when-the-model-is-wrong" id="toc-what-happens-when-the-model-is-wrong" class="nav-link" data-scroll-target="#what-happens-when-the-model-is-wrong">What happens when the model is wrong?</a></li>
+  <li><a href="#what-hyperflux-has-taught-me" id="toc-what-hyperflux-has-taught-me" class="nav-link" data-scroll-target="#what-hyperflux-has-taught-me">What HyperFlux has taught me</a></li>
+  <li><a href="#why-this-matters-beyond-peatlands" id="toc-why-this-matters-beyond-peatlands" class="nav-link" data-scroll-target="#why-this-matters-beyond-peatlands">Why this matters beyond peatlands</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">HyperFlux:<br>Building a Scientific Digital Twin That Learns</h1>
+<p class="subtitle lead">Physics, machine learning, uncertainty and sequential adaptation for peatland carbon exchange</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Scientific AI</div>
+    <div class="quarto-category">Scientific ML</div>
+    <div class="quarto-category">Digital Twins</div>
+    <div class="quarto-category">Uncertainty</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Craig Bower </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 21, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Agricultural peatlands present a difficult scientific and modelling problem. They can act as both sources and sinks of carbon dioxide, and that balance changes continually with temperature, sunlight, soil moisture, crop growth, season and land management.</p>
+<p>One of the most useful measurements is <strong>net ecosystem exchange (NEE)</strong>: the net movement of carbon dioxide between an ecosystem and the atmosphere. Flux towers can measure this directly, but they are expensive and sparse.</p>
+<p>That creates a recurring problem in scientific machine learning:</p>
+<blockquote class="blockquote">
+<p><strong>How can we make useful predictions about a complex physical system when observations are limited, the underlying physics is only partly known, and the system itself changes through time?</strong></p>
+</blockquote>
+<p>My work on <strong>HyperFlux</strong> has focused on that problem. HyperFlux is being developed as a scientific digital twin for intensively managed lowland peat agriculture. Rather than producing one prediction and then remaining permanently fixed, the aim is to combine physical knowledge, machine learning and new observations so that the twin can adapt as conditions change.</p>
+<div id="fig-overview" class="quarto-float quarto-figure quarto-figure-center anchored" alt="HyperFlux architecture showing field information, TER and GPP physical processes, graph message passing, learned NEE prediction, uncertainty and EKF local learning.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-1-hyperflux-at-a-glance.png" class="img-fluid figure-img" alt="HyperFlux architecture showing field information, TER and GPP physical processes, graph message passing, learned NEE prediction, uncertainty and EKF local learning.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: HyperFlux at a glance. Environmental and field information feeds an explicit physical component and a variable-interaction graph, followed by learned prediction, uncertainty estimation and field-specific sequential adaptation.
+</figcaption>
+</figure>
+</div>
+<section id="why-an-ordinary-machine-learning-model-is-not-enough" class="level2">
+<h2 class="anchored" data-anchor-id="why-an-ordinary-machine-learning-model-is-not-enough">Why an ordinary machine-learning model is not enough</h2>
+<p>A conventional machine-learning model could take variables such as temperature, radiation and soil moisture and learn a mapping directly to carbon exchange. That can work when future conditions resemble the data on which the model was trained.</p>
+<p>Scientific use creates harder requirements. We may want to understand <em>why</em> a prediction changed, ask what could happen under different conditions, forecast several days ahead, reason about physical processes that are not directly measured, or decide when a prediction should not be trusted.</p>
+<p>HyperFlux therefore combines a learned model with simplified representations of the physical processes that generate carbon exchange. This follows the broader physics-informed machine-learning principle of combining data with mechanistic or mathematical knowledge rather than treating them as competing alternatives <span class="citation" data-cites="karniadakis2021physics">(<a href="#ref-karniadakis2021physics" role="doc-biblioref">Karniadakis et al. 2021</a>)</span>.</p>
+</section>
+<section id="starting-with-the-carbon-balance" class="level2">
+<h2 class="anchored" data-anchor-id="starting-with-the-carbon-balance">Starting with the carbon balance</h2>
+<p>HyperFlux reasons explicitly about two important components of ecosystem carbon exchange.</p>
+<p><strong>Total ecosystem respiration (TER)</strong> represents carbon dioxide released through biological respiration. Temperature-response formulations, including Q10-style models, are well established in ecosystem and soil-respiration modelling <span class="citation" data-cites="lloyd1994temperature">(<a href="#ref-lloyd1994temperature" role="doc-biblioref">Lloyd and Taylor 1994</a>)</span>.</p>
+<p><strong>Gross primary productivity (GPP)</strong> represents carbon uptake through photosynthesis. Light-response approaches are widely used to partition measured net ecosystem exchange into photosynthetic assimilation and ecosystem respiration while accounting for environmental effects <span class="citation" data-cites="lasslop2010separation">(<a href="#ref-lasslop2010separation" role="doc-biblioref">Lasslop et al. 2010</a>)</span>.</p>
+<div id="fig-nee" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagram showing TER releasing carbon dioxide to the atmosphere, GPP removing carbon dioxide through photosynthesis, and NEE as the net balance.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-nee-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-2-nee.png" class="img-fluid figure-img" alt="Diagram showing TER releasing carbon dioxide to the atmosphere, GPP removing carbon dioxide through photosynthesis, and NEE as the net balance.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nee-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Conceptual origin of NEE as the balance between ecosystem respiration and photosynthetic carbon uptake.
+</figcaption>
+</figure>
+</div>
+<p>The physics component is not intended to be a perfect mechanistic description of every ecological process. Its role is to provide the learning system with meaningful structure. The learned component can then represent residual behaviour that the simplified equations do not capture.</p>
+<p>In other words:</p>
+<blockquote class="blockquote">
+<p><strong>Physics provides structure; machine learning provides flexibility.</strong></p>
+</blockquote>
+</section>
+<section id="learning-physical-behaviour-from-observations" class="level2">
+<h2 class="anchored" data-anchor-id="learning-physical-behaviour-from-observations">Learning physical behaviour from observations</h2>
+<p>Many quantities we care about cannot simply be read from a sensor. Parameters describing respiration sensitivity, photosynthetic capacity or environmental response may be <strong>latent</strong>. We have to infer them from behaviour that we can observe.</p>
+<p>This is an <strong>inverse problem</strong>: instead of starting with known physical parameters and calculating the resulting carbon exchange, we observe carbon exchange and ask which physical states or parameter values could plausibly have produced it.</p>
+<p>There is an important limitation. Multiple parameter combinations can sometimes explain almost the same observed behaviour. This is an <strong>identifiability problem</strong>.</p>
+<p>A model-generated parameter value is therefore not automatically a measurement, and it may not be uniquely determined by the data. Scientific interpretability requires us to say what the observations genuinely constrain rather than presenting every inferred quantity as equally well established.</p>
+</section>
+<section id="why-represent-the-system-as-a-graph" class="level2">
+<h2 class="anchored" data-anchor-id="why-represent-the-system-as-a-graph">Why represent the system as a graph?</h2>
+<p>Environmental systems consist of interacting processes. Temperature affects respiration. Radiation influences photosynthesis. Soil moisture can constrain biological activity. Crop state, soil carbon and weather interact rather than acting as unrelated features.</p>
+<p>HyperFlux therefore represents important environmental and physical variables as nodes in a <strong>variable-interaction graph</strong>.</p>
+<div id="fig-graph" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Variable interaction graph connecting temperature, radiation, soil moisture, soil carbon, crop state, GPP, TER and NEE.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-3-graph.png" class="img-fluid figure-img" alt="Variable interaction graph connecting temperature, radiation, soil moisture, soil carbon, crop state, GPP, TER and NEE.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Why HyperFlux uses a graph: related environmental and physical quantities exchange information through graph message passing.
+</figcaption>
+</figure>
+</div>
+<p>A graph neural network lets information move between connected quantities through <strong>message passing</strong>. The general message-passing neural-network framework formalises this idea as learned exchange and aggregation of information over graph edges <span class="citation" data-cites="gilmer2017neural">(<a href="#ref-gilmer2017neural" role="doc-biblioref">Gilmer et al. 2017</a>)</span>.</p>
+<p>The purpose is not to make the model more complicated for its own sake. It is to encode the idea that the system consists of interacting processes and to let the learned representation exploit those interactions.</p>
+</section>
+<section id="regional-knowledge-and-local-memory" class="level2">
+<h2 class="anchored" data-anchor-id="regional-knowledge-and-local-memory">Regional knowledge and local memory</h2>
+<p>One of the central ideas behind HyperFlux is to separate two kinds of knowledge.</p>
+<p>The <strong>regional model</strong> learns patterns that recur across multiple observed fields, crops and seasons: what fields broadly tend to do.</p>
+<p>A particular field can nevertheless behave differently from that regional expectation. HyperFlux therefore maintains a smaller <strong>local state</strong> that captures how the current field differs.</p>
+<div id="fig-regional-local" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Many observed fields train a regional model. A local field and new NEE measurement update an EKF local memory, producing a field-specific forecast.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-regional-local-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-4-regional-local.png" class="img-fluid figure-img" alt="Many observed fields train a regional model. A local field and new NEE measurement update an EKF local memory, producing a field-specific forecast.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-regional-local-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Regional knowledge versus local memory. A regional model captures shared behaviour; new observations update a compact field-specific EKF state to produce a localised forecast.
+</figcaption>
+</figure>
+</div>
+<p>When a new flux-tower observation becomes available, that local state can be updated sequentially using an <strong>Extended Kalman Filter (EKF)</strong>. The EKF is a classical state-estimation method for nonlinear systems that updates a current state estimate and its uncertainty using new observations <span class="citation" data-cites="welchbishopkalman">(<a href="#ref-welchbishopkalman" role="doc-biblioref">Welch and Bishop 2006</a>)</span>.</p>
+<p>Conceptually, the cycle is:</p>
+<p><strong>regional prediction → new observation → prediction error → local-state update → revised prediction</strong></p>
+<p>This gives the digital twin a form of memory without requiring the entire neural network to be retrained whenever a new measurement arrives.</p>
+</section>
+<section id="what-self-learning-means-here" class="level2">
+<h2 class="anchored" data-anchor-id="what-self-learning-means-here">What self-learning means here</h2>
+<p>The phrase <em>self-learning</em> can easily become vague. In HyperFlux it has a specific operational meaning.</p>
+<div id="fig-self-learning" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Timeline showing Monday prediction, Tuesday observation and prediction error, EKF local update, and improved Wednesday forecast.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-self-learning-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-5-self-learning.png" class="img-fluid figure-img" alt="Timeline showing Monday prediction, Tuesday observation and prediction error, EKF local update, and improved Wednesday forecast.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-self-learning-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Self-learning through time. HyperFlux predicts, assimilates a later observation, updates a compact field-specific state, and uses that state for the next forecast while leaving the regional network fixed.
+</figcaption>
+</figure>
+</div>
+<p>The regional neural model can remain fixed while a compact field-specific state is updated as new evidence arrives. This distinction matters because online learning does not necessarily require continuous neural-network retraining.</p>
+<p>For scientific forecasting, evaluation must also be causal. Information from tomorrow cannot be allowed to improve today’s forecast. HyperFlux therefore uses walk-forward reasoning in which each prediction is based only on information that would genuinely have been available at that point in time.</p>
+</section>
+<section id="quantifying-uncertainty" class="level2">
+<h2 class="anchored" data-anchor-id="quantifying-uncertainty">Quantifying uncertainty</h2>
+<p>A scientific prediction should not be presented as perfectly certain.</p>
+<p>HyperFlux therefore exposes uncertainty alongside its predictions. One component uses Monte-Carlo dropout: dropout is retained during repeated inference so that variation across stochastic forward passes can be used as an approximate representation of model uncertainty, following the Bayesian interpretation developed by Gal and Ghahramani <span class="citation" data-cites="gal2016dropout">(<a href="#ref-gal2016dropout" role="doc-biblioref">Gal and Ghahramani 2016</a>)</span>.</p>
+<p>Other uncertainty arises from local state estimation and, in transfer settings, from how strongly another field supports the target field.</p>
+<p>These distinctions matter because the useful question is not only <strong>“How uncertain is this prediction?”</strong> but also <strong>“Why is it uncertain?”</strong></p>
+</section>
+<section id="counterfactual-questions" class="level2">
+<h2 class="anchored" data-anchor-id="counterfactual-questions">Counterfactual questions</h2>
+<p>A digital twin containing both learned behaviour and physical structure can be used to ask questions of the form:</p>
+<p><strong>What might happen if conditions were different?</strong></p>
+<p>For example, we can alter an environmental driver and propagate the changed state through the same modelling pipeline. These experiments can help explore sensitivity to temperature, radiation, soil moisture or alternative future conditions.</p>
+<p>A counterfactual prediction is not automatically a causal conclusion. Its credibility still depends on whether the intervention is scientifically meaningful and whether the model adequately represents the mechanisms affected by the change.</p>
+</section>
+<section id="looking-into-future-conditions" class="level2">
+<h2 class="anchored" data-anchor-id="looking-into-future-conditions">Looking into future conditions</h2>
+<p>The same modelling framework can be driven by future meteorological inputs. Shorter-term forecasts can use weather forecasts; longer-term scenario analysis can use climate projections.</p>
+<p>This asks a fundamentally different question from ordinary interpolation:</p>
+<blockquote class="blockquote">
+<p><strong>What might this system do under environmental conditions that have not yet occurred?</strong></p>
+</blockquote>
+<p>That is precisely where uncertainty and validation become especially important because the model may be moving further away from the conditions represented by its original observations.</p>
+</section>
+<section id="the-harder-problem-fields-without-flux-towers" class="level2">
+<h2 class="anchored" data-anchor-id="the-harder-problem-fields-without-flux-towers">The harder problem: fields without flux towers</h2>
+<p>A field without a flux tower cannot genuinely self-learn from local NEE observations because those observations do not exist. This turns the problem from <strong>adaptation</strong> into <strong>transfer</strong>.</p>
+<p>We have investigated whether information learned at instrumented fields can be transferred to a scientifically similar uninstrumented field.</p>
+<div id="fig-no-tower" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Tower-observed fields feed an analogue selection process. Transfer to an untowered field is moderated by uncertainty and support, with strong support using analogue state and weak support reverting toward regional prior.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-no-tower-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-6-no-tower.png" class="img-fluid figure-img" alt="Tower-observed fields feed an analogue selection process. Transfer to an untowered field is moderated by uncertainty and support, with strong support using analogue state and weak support reverting toward regional prior.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-no-tower-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: The no-tower analogue-transfer problem. Tower-observed fields may provide candidate analogues, but transfer should depend on scientific similarity, uncertainty and support, with fallback toward regional knowledge when evidence is weak.
+</figcaption>
+</figure>
+</div>
+<p>The obvious idea is to identify a similar field and copy its behaviour. More rigorous experiments showed why that is too simple. Fields that appear similar geographically or environmentally do not necessarily have sufficiently similar carbon dynamics. Seasonal state matters as well: a midsummer crop should not automatically be matched to a donor represented by an end-of-season state.</p>
+<p>The no-tower problem therefore remains an <strong>active research question</strong>, not a capability I currently present as solved.</p>
+</section>
+<section id="what-happens-when-the-model-is-wrong" class="level2">
+<h2 class="anchored" data-anchor-id="what-happens-when-the-model-is-wrong">What happens when the model is wrong?</h2>
+<p>For me, this is one of the most important questions in scientific AI.</p>
+<p>When a prediction is poor, reporting a larger error is only the start. We want to ask what may have caused it:</p>
+<ul>
+<li>Was the regional model inappropriate for this field?</li>
+<li>Did the local state fail to adapt quickly enough?</li>
+<li>Was a physical parameter weakly identified?</li>
+<li>Was the field operating outside conditions represented in training?</li>
+<li>Was uncertainty already signalling that the prediction should not be trusted?</li>
+<li>Did an apparently similar field turn out not to be a useful analogue?</li>
+</ul>
+<p>These questions move the task from prediction toward <strong>scientific diagnosis</strong>.</p>
+</section>
+<section id="what-hyperflux-has-taught-me" class="level2">
+<h2 class="anchored" data-anchor-id="what-hyperflux-has-taught-me">What HyperFlux has taught me</h2>
+<p>Several lessons extend well beyond peatland carbon modelling.</p>
+<p>First, adding physics to machine learning does not automatically make the resulting model physically correct.</p>
+<p>Second, an inferred physical parameter is not the same thing as a directly measured quantity.</p>
+<p>Third, uncertainty should influence how strongly transferred information is trusted.</p>
+<p>Fourth, online learning does not always require neural-network retraining.</p>
+<p>Fifth, negative results are scientifically useful. A transfer method that fails under rigorous evaluation tells us something important about what the available information does not justify.</p>
+<p>Finally, scientific AI becomes more useful when a prediction comes with <strong>provenance</strong>: what information produced it, what assumptions were involved, what remains uncertain, and how the prediction changed when new evidence arrived.</p>
+</section>
+<section id="why-this-matters-beyond-peatlands" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-matters-beyond-peatlands">Why this matters beyond peatlands</h2>
+<p>The underlying problem occurs throughout science and industry.</p>
+<p>An industrial process may have only a small number of sensors. A machine may behave differently from the population on which a model was trained. A digital twin may need to adapt as equipment ages. A scientific instrument may generate observations too slowly or expensively to retrain a large model continually. A model may need to combine mechanistic equations with data rather than choosing between physics and machine learning.</p>
+<p>The broader question is therefore:</p>
+<blockquote class="blockquote">
+<p><strong>How do we build intelligent systems for complex physical processes when observations are sparse, physics is incomplete, conditions change and uncertainty matters?</strong></p>
+</blockquote>
+<p>HyperFlux is one setting in which I have been investigating that question.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-gal2016dropout" class="csl-entry" role="listitem">
+Gal, Yarin, and Zoubin Ghahramani. 2016. <span>“Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning.”</span> <em>Proceedings of the 33rd International Conference on Machine Learning</em>, Proceedings of machine learning research, vol. 48: 1050–59.
+</div>
+<div id="ref-gilmer2017neural" class="csl-entry" role="listitem">
+Gilmer, Justin, Samuel S. Schoenholz, Patrick F. Riley, Oriol Vinyals, and George E. Dahl. 2017. <span>“Neural Message Passing for Quantum Chemistry.”</span> <em>Proceedings of the 34th International Conference on Machine Learning</em>, Proceedings of machine learning research, vol. 70: 1263–72.
+</div>
+<div id="ref-karniadakis2021physics" class="csl-entry" role="listitem">
+Karniadakis, George Em, Ioannis G. Kevrekidis, Lu Lu, Paris Perdikaris, Sifan Wang, and Liu Yang. 2021. <span>“Physics-Informed Machine Learning.”</span> <em>Nature Reviews Physics</em> 3: 422–40. <a href="https://doi.org/10.1038/s42254-021-00314-5">https://doi.org/10.1038/s42254-021-00314-5</a>.
+</div>
+<div id="ref-lasslop2010separation" class="csl-entry" role="listitem">
+Lasslop, G., M. Reichstein, D. Papale, et al. 2010. <span>“Separation of Net Ecosystem Exchange into Assimilation and Respiration Using a Light Response Curve Approach: Critical Issues and Global Evaluation.”</span> <em>Global Change Biology</em> 16 (1): 187–208. <a href="https://doi.org/10.1111/j.1365-2486.2009.02041.x">https://doi.org/10.1111/j.1365-2486.2009.02041.x</a>.
+</div>
+<div id="ref-lloyd1994temperature" class="csl-entry" role="listitem">
+Lloyd, J., and J. A. Taylor. 1994. <span>“On the Temperature Dependence of Soil Respiration.”</span> <em>Functional Ecology</em> 8 (3): 315–23. <a href="https://doi.org/10.2307/2389824">https://doi.org/10.2307/2389824</a>.
+</div>
+<div id="ref-welchbishopkalman" class="csl-entry" role="listitem">
+Welch, Greg, and Gary Bishop. 2006. <em>An Introduction to the Kalman Filter</em>. TR 95-041. University of North Carolina at Chapel Hill.
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Craig Bower</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Scientific AI · Decision-making under uncertainty</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

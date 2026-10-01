@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Craig Bower">
+<meta name="dcterms.date" content="2026-09-22">
+
+<title>PeCNO: Physics-Enforced Continuous Neural Operator – Craig Bower</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-010da2a2fc40747cac3973d122291414.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Craig Bower</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../writing.html"> 
+<span class="menu-text">Writing</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#the-scientific-problem" id="toc-the-scientific-problem" class="nav-link active" data-scroll-target="#the-scientific-problem">The scientific problem</a></li>
+  <li><a href="#a-continuous-field-rather-than-a-fixed-image-generator" id="toc-a-continuous-field-rather-than-a-fixed-image-generator" class="nav-link" data-scroll-target="#a-continuous-field-rather-than-a-fixed-image-generator">A continuous field rather than a fixed image generator</a></li>
+  <li><a href="#predicting-uncertainty-as-well-as-the-field" id="toc-predicting-uncertainty-as-well-as-the-field" class="nav-link" data-scroll-target="#predicting-uncertainty-as-well-as-the-field">Predicting uncertainty as well as the field</a></li>
+  <li><a href="#physics-is-enforced-after-the-neural-prediction" id="toc-physics-is-enforced-after-the-neural-prediction" class="nav-link" data-scroll-target="#physics-is-enforced-after-the-neural-prediction">Physics is enforced after the neural prediction</a></li>
+  <li><a href="#what-the-point-predictions-get-right-and-where-they-fail" id="toc-what-the-point-predictions-get-right-and-where-they-fail" class="nav-link" data-scroll-target="#what-the-point-predictions-get-right-and-where-they-fail">What the point predictions get right — and where they fail</a></li>
+  <li><a href="#central-result-conformal-coverage-does-not-transfer-across-eddington-ratio" id="toc-central-result-conformal-coverage-does-not-transfer-across-eddington-ratio" class="nav-link" data-scroll-target="#central-result-conformal-coverage-does-not-transfer-across-eddington-ratio">Central result: conformal coverage does not transfer across Eddington ratio</a></li>
+  <li><a href="#the-same-calibration-problem-appears-through-time" id="toc-the-same-calibration-problem-appears-through-time" class="nav-link" data-scroll-target="#the-same-calibration-problem-appears-through-time">The same calibration problem appears through time</a></li>
+  <li><a href="#adaptive-conformal-inference-turns-calibration-into-a-feedback-problem" id="toc-adaptive-conformal-inference-turns-calibration-into-a-feedback-problem" class="nav-link" data-scroll-target="#adaptive-conformal-inference-turns-calibration-into-a-feedback-problem">Adaptive conformal inference turns calibration into a feedback problem</a></li>
+  <li><a href="#how-much-reference-information-is-needed" id="toc-how-much-reference-information-is-needed" class="nav-link" data-scroll-target="#how-much-reference-information-is-needed">How much reference information is needed?</a></li>
+  <li><a href="#restoring-smaller-scale-structure-with-a-generative-residual" id="toc-restoring-smaller-scale-structure-with-a-generative-residual" class="nav-link" data-scroll-target="#restoring-smaller-scale-structure-with-a-generative-residual">Restoring smaller-scale structure with a generative residual</a></li>
+  <li><a href="#what-pecno-means-by-a-simulation-digital-twin" id="toc-what-pecno-means-by-a-simulation-digital-twin" class="nav-link" data-scroll-target="#what-pecno-means-by-a-simulation-digital-twin">What PeCNO means by a simulation digital twin</a></li>
+  <li><a href="#what-this-work-has-taught-me" id="toc-what-this-work-has-taught-me" class="nav-link" data-scroll-target="#what-this-work-has-taught-me">What this work has taught me</a></li>
+  <li><a href="#why-this-matters-beyond-agn-jets" id="toc-why-this-matters-beyond-agn-jets" class="nav-link" data-scroll-target="#why-this-matters-beyond-agn-jets">Why this matters beyond AGN jets</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">PeCNO: Physics-Enforced Continuous Neural Operator</h1>
+<p class="subtitle lead">A fast AGN-jet simulation surrogate with hard physics constraints, adaptive uncertainty calibration and scale-aware generative residuals</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Scientific AI</div>
+    <div class="quarto-category">Scientific ML</div>
+    <div class="quarto-category">Neural Operators</div>
+    <div class="quarto-category">Uncertainty Quantification</div>
+    <div class="quarto-category">Astrophysics</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Craig Bower </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 22, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>High-resolution simulations of active galactic nucleus (AGN) jets are scientifically valuable and computationally expensive. The moving-mesh calculations used in this work can require of order <span class="math inline">\(10^5\)</span> CPU-hours for a single high-resolution feedback calculation <span class="citation" data-cites="BourneSijacki2017">(<a href="#ref-BourneSijacki2017" role="doc-biblioref">Bourne and Sijacki 2017</a>)</span>. The <em>Eddington</em> <em>ratio</em> compares how fast a supermassive black hole is actually swallowing surrounding matter with its theoretical limit. That makes dense exploration of physical parameters such as the Eddington ratio impractical.</p>
+<p>A learned surrogate offers a possible alternative: run a limited number of expensive simulations, learn their common structure, and then query the surrogate at physical conditions that have not themselves been simulated.</p>
+<p>But that immediately creates a harder question than ordinary prediction:</p>
+<blockquote class="blockquote">
+<p><strong>If a scientific surrogate is asked to predict a new physical regime, how do we know whether its uncertainty estimate is still trustworthy?</strong></p>
+</blockquote>
+<p>My work on <strong>PeCNO</strong>, a physics-enforced continuous neural-field/operator surrogate, studies this question using idealised AGN jet–intracluster-medium simulations. The system combines a continuous coordinate-based predictor, explicit post-prediction physics projection, non-crossing uncertainty heads, conformal calibration, adaptive conformal inference and a controlled generative residual for smaller spatial scales.</p>
+<p>The most important result is not simply that the surrogate can produce plausible fields. It is that <strong>uncertainty calibration that works on the simulations used for calibration can fail badly at an unseen physical parameter value — and online feedback can repair that failure in a precisely defined sense.</strong></p>
+<div id="fig-architecture" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Architecture of the PeCNO AGN-jet surrogate showing simulation slices, a Fourier-feature SIREN with FiLM conditioning, prediction and uncertainty heads, physical projection, adaptive conformal calibration and a gated generative residual.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-architecture-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-1-pecno-architecture.png" class="img-fluid figure-img" alt="Architecture of the PeCNO AGN-jet surrogate showing simulation slices, a Fourier-feature SIREN with FiLM conditioning, prediction and uncertainty heads, physical projection, adaptive conformal calibration and a gated generative residual.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-architecture-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: PeCNO architecture. A continuous neural field represents the hydrodynamic state, time and Eddington ratio condition the spatial representation, uncertainty is predicted and recalibrated online, selected physical relations are enforced after prediction, and a gated diffusion residual restores some smaller-scale structure.
+</figcaption>
+</figure>
+</div>
+<section id="the-scientific-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-scientific-problem">The scientific problem</h2>
+<p>The simulations follow AGN jets interacting with the surrounding intracluster medium, a setting in which jets inflate cavities, drive shocks and turbulence and redistribute energy through the surrounding gas <span class="citation" data-cites="BourneYang2022">(<a href="#ref-BourneYang2022" role="doc-biblioref">Bourne and Yang 2023</a>)</span>.</p>
+<p>The study uses six idealised <strong>AREPO</strong> simulation sequences. Each sequence contains 151 snapshots separated by 0.5 Myr. For machine-learning purposes each snapshot is represented as a <span class="math inline">\(512\times512\)</span> planar <span class="math inline">\((x,z)\)</span> slice covering a 500 kpc domain.</p>
+<p>At every spatial location the surrogate predicts five fields:</p>
+<p><span class="math display">\[
+\mathbf u=(\rho,p,\varepsilon,v_x,v_z),
+\]</span></p>
+<p>where <span class="math inline">\(\rho\)</span> is density, <span class="math inline">\(p\)</span> is pressure, <span class="math inline">\(\varepsilon\)</span> is specific internal energy and <span class="math inline">\(v_x,v_z\)</span> are the two in-plane velocity components.</p>
+<p>Four Eddington ratios are used for training:</p>
+<p><span class="math display">\[
+\lambda_{\mathrm{Edd}}\in\{0.001,0.002,0.01,0.1\}.
+\]</span></p>
+<p>Two simulations are hidden completely from training. The held-out value <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span> lies inside the training range and therefore tests <strong>interpolation</strong>. The held-out value <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span> lies outside the training range and tests <strong>extrapolation</strong>.</p>
+<p>That distinction is important because a surrogate is useful precisely when we want to query a physical condition for which the expensive reference simulation has not already been run.</p>
+</section>
+<section id="a-continuous-field-rather-than-a-fixed-image-generator" class="level2">
+<h2 class="anchored" data-anchor-id="a-continuous-field-rather-than-a-fixed-image-generator">A continuous field rather than a fixed image generator</h2>
+<p>The central object learned by PeCNO is a continuous map</p>
+<p><span class="math display">\[
+(x,z,t,\lambda_{\mathrm{Edd}})
+\longmapsto
+(\hat\rho,\hat p,\hat\varepsilon,\hat v_x,\hat v_z).
+\]</span></p>
+<p>Rather than predicting only one fixed <span class="math inline">\(512\times512\)</span> image, the model represents the physical fields as functions of spatial coordinates, evolutionary time and Eddington ratio.</p>
+<p>Spatial position answers <strong>where</strong> the field is being queried. Time and Eddington ratio answer <strong>which physical state</strong> is required.</p>
+<p>To represent several spatial scales, the model first maps coordinates through Gaussian random Fourier features <span class="citation" data-cites="rahimi2007">(<a href="#ref-rahimi2007" role="doc-biblioref">Rahimi and Recht 2007</a>)</span>. These make a range of spatial frequencies readily available to the network. A SIREN trunk then represents the continuous field using sinusoidal neural layers <span class="citation" data-cites="Sitzmann2020">(<a href="#ref-Sitzmann2020" role="doc-biblioref">Sitzmann et al. 2020</a>)</span>.</p>
+<p>Time and <span class="math inline">\(\log_{10}\lambda_{\mathrm{Edd}}\)</span> condition the spatial representation through feature-wise linear modulation, or <strong>FiLM</strong> <span class="citation" data-cites="Perez2018">(<a href="#ref-Perez2018" role="doc-biblioref">Perez et al. 2018</a>)</span>. In plain terms, the spatial trunk learns a reusable set of spatial structures while the conditioning network learns how strongly those structures should appear at a particular time and Eddington ratio.</p>
+<p>The base operator used for the manuscript’s fidelity and uncertainty experiments contains 147,087 trainable parameters.</p>
+</section>
+<section id="predicting-uncertainty-as-well-as-the-field" class="level2">
+<h2 class="anchored" data-anchor-id="predicting-uncertainty-as-well-as-the-field">Predicting uncertainty as well as the field</h2>
+<p>A scientific surrogate should not return only a point estimate. PeCNO therefore predicts non-crossing lower, central and upper quantile fields for every hydrodynamic channel.</p>
+<p>Those raw neural intervals are useful, but they are not automatically calibrated. If an interval is described as a nominal 90% interval, we would like approximately 90% of future observations to fall inside it under the conditions covered by the statistical guarantee.</p>
+<p><strong>Conformal prediction</strong> provides a way to calibrate such intervals using previous prediction errors <span class="citation" data-cites="Vovk2005 Romano2019">(<a href="#ref-Vovk2005" role="doc-biblioref">Vovk et al. 2005</a>; <a href="#ref-Romano2019" role="doc-biblioref">Romano et al. 2019</a>)</span>. Standard split conformal prediction is attractive because its finite-sample marginal coverage result makes very weak assumptions about the underlying predictor.</p>
+<p>It does, however, require a crucial condition: the calibration and test errors must be <strong>exchangeable</strong> — roughly, statistically interchangeable.</p>
+<p>For a parameterised scientific surrogate this is exactly the assumption that may fail. An error made at <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.001\)</span> need not have the same distribution as an error made at <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span>. The same issue can arise through time as a jet evolves from an early state into a later, dynamically different state.</p>
+</section>
+<section id="physics-is-enforced-after-the-neural-prediction" class="level2">
+<h2 class="anchored" data-anchor-id="physics-is-enforced-after-the-neural-prediction">Physics is enforced after the neural prediction</h2>
+<p>PeCNO does not rely only on soft physics penalties during training. The network first proposes a state, and selected physical relations are then imposed by deterministic <strong>a posteriori projection</strong>.</p>
+<p>The correction sequence is</p>
+<p><span class="math display">\[
+\mathsf C_1\rightarrow\mathsf C_2\rightarrow\mathsf C_3,
+\]</span></p>
+<p>corresponding to positivity of the thermodynamic variables, consistency with the ideal-gas equation of state, and consistency with a planar continuity equation.</p>
+<p>This distinction matters: a training penalty can encourage a relation, whereas a projection can enforce the chosen constraint to numerical precision.</p>
+<div id="fig-physics" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Combined equation-of-state and planar-continuity diagnostics showing very large residual reductions after deterministic projection.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-physics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-2-physics-projection.png" class="img-fluid figure-img" alt="Combined equation-of-state and planar-continuity diagnostics showing very large residual reductions after deterministic projection.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-physics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Physics projection diagnostics. Left: the equation-of-state residual before and after projection in the correct normalised coordinate system. Right: the planar continuity residual before and after the Helmholtz–Hodge correction.
+</figcaption>
+</figure>
+</div>
+<p>The physics results are substantial. At <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span>, the Helmholtz–Hodge projection reduces the RMS planar-continuity residual from <span class="math inline">\(5.13\times10^{-3}\)</span> to <span class="math inline">\(1.33\times10^{-6}\)</span>, a factor of about <span class="math inline">\(3.9\times10^3\)</span>. At <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span> the reduction is from <span class="math inline">\(6.13\times10^{-3}\)</span> to <span class="math inline">\(4.86\times10^{-7}\)</span>, a factor of about <span class="math inline">\(1.3\times10^4\)</span>.</p>
+<p>The equation-of-state calculation exposed another important lesson. Because each simulation was min–max normalised separately, the ideal-gas law cannot be applied naively in the normalised coordinates. The physical relation must first be transformed through the per-file affine normalisation. A naive residual of about 0.65 is therefore a <strong>coordinate artefact</strong>, not evidence that the simulation violates the ideal-gas law. Using the correct transformed relation and projecting onto it reduces the residual to <span class="math inline">\(7.2\times10^{-8}\)</span>.</p>
+<p>There is also an important limitation: the continuity condition is the <strong>planar</strong> equation for the two-dimensional slice. A slice of an intrinsically three-dimensional flow does not itself contain the out-of-plane flux divergence. The projection is therefore an internal consistency condition for the surrogate representation, not a claim that full three-dimensional mass conservation has been reconstructed.</p>
+</section>
+<section id="what-the-point-predictions-get-right-and-where-they-fail" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-point-predictions-get-right-and-where-they-fail">What the point predictions get right — and where they fail</h2>
+<p>The thermodynamic fields retain substantial spatial fidelity at both held-out Eddington ratios, but the results are not uniformly strong across channels.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Held-out ratio</th>
+<th>Channel</th>
+<th style="text-align: right;">Correlation <span class="math inline">\(r\)</span></th>
+<th style="text-align: right;">relRMSE</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(0.02\)</span></td>
+<td>Density <span class="math inline">\(\rho\)</span></td>
+<td style="text-align: right;">0.926</td>
+<td style="text-align: right;">0.446</td>
+<td>Strong large-scale spatial recovery</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(0.02\)</span></td>
+<td>Pressure <span class="math inline">\(p\)</span></td>
+<td style="text-align: right;">0.992</td>
+<td style="text-align: right;">0.182</td>
+<td>Strongest interpolation result</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(0.02\)</span></td>
+<td>Internal energy <span class="math inline">\(\varepsilon\)</span></td>
+<td style="text-align: right;">0.890</td>
+<td style="text-align: right;">0.468</td>
+<td>Good structural recovery with missing smaller scales</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(0.02\)</span></td>
+<td><span class="math inline">\(v_x\)</span></td>
+<td style="text-align: right;">0.193</td>
+<td style="text-align: right;">2.240</td>
+<td>Essentially untracked</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(0.02\)</span></td>
+<td><span class="math inline">\(v_z\)</span></td>
+<td style="text-align: right;">0.706</td>
+<td style="text-align: right;">1.244</td>
+<td>Spatial structure present, but large bias</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(0.2\)</span></td>
+<td>Density <span class="math inline">\(\rho\)</span></td>
+<td style="text-align: right;">0.956</td>
+<td style="text-align: right;">0.318</td>
+<td>Strong extrapolation result</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(0.2\)</span></td>
+<td>Pressure <span class="math inline">\(p\)</span></td>
+<td style="text-align: right;">0.980</td>
+<td style="text-align: right;">1.003</td>
+<td>High correlation but severe mean offset</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(0.2\)</span></td>
+<td>Internal energy <span class="math inline">\(\varepsilon\)</span></td>
+<td style="text-align: right;">0.945</td>
+<td style="text-align: right;">0.331</td>
+<td>Strong extrapolation result</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(0.2\)</span></td>
+<td><span class="math inline">\(v_x\)</span></td>
+<td style="text-align: right;">0.120</td>
+<td style="text-align: right;">2.825</td>
+<td>Essentially untracked</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(0.2\)</span></td>
+<td><span class="math inline">\(v_z\)</span></td>
+<td style="text-align: right;">0.894</td>
+<td style="text-align: right;">0.497</td>
+<td>Markedly better than at <span class="math inline">\(0.02\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>This table illustrates why a single headline error metric is not enough. Pressure at <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span> has correlation <span class="math inline">\(r=0.980\)</span> but relRMSE <span class="math inline">\(1.003\)</span> because the field has a large systematic offset. By contrast, <span class="math inline">\(v_x\)</span> has near-zero correlation at both ratios, so an offset correction would not repair the missing spatial structure.</p>
+<p>It also shows why simple distance from the training range is not a reliable proxy for difficulty. Several thermodynamic channels correlate <strong>better</strong> at the extrapolation ratio <span class="math inline">\(0.2\)</span> than at the interpolation ratio <span class="math inline">\(0.02\)</span>.</p>
+</section>
+<section id="central-result-conformal-coverage-does-not-transfer-across-eddington-ratio" class="level2">
+<h2 class="anchored" data-anchor-id="central-result-conformal-coverage-does-not-transfer-across-eddington-ratio">Central result: conformal coverage does not transfer across Eddington ratio</h2>
+<p>The central experiment asks whether uncertainty calibrated on the training simulations remains valid at an unseen Eddington ratio.</p>
+<p>It does not.</p>
+<p>Intervals calibrated for nominal 90% coverage on the four training ratios achieve median coverage of only <strong>1.5%–36%</strong> across channels and conformal variants at <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span>, and <strong>1.3%–82%</strong> at <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span>.</p>
+<div id="fig-transfer" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Five-panel coverage plot for density, pressure, internal energy and two velocity channels showing severe cross-Eddington-ratio undercoverage relative to the nominal 0.90 level.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-transfer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-3-conformal-transfer.png" class="img-fluid figure-img" alt="Five-panel coverage plot for density, pressure, internal energy and two velocity channels showing severe cross-Eddington-ratio undercoverage relative to the nominal 0.90 level.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-transfer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Cross-Eddington-ratio conformal calibration at the held-out interpolation ratio. The nominal 90% target is not maintained when the calibration-score distribution does not match the deployment-score distribution.
+</figcaption>
+</figure>
+</div>
+<p>For the marginal conformal variant, the median coverages are especially revealing. At <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span>, density, pressure, internal energy, <span class="math inline">\(v_x\)</span> and <span class="math inline">\(v_z\)</span> achieve 0.035, 0.341, 0.355, 0.035 and 0.020 respectively. At <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span> the same fixed calibration gives 0.459, 0.013, 0.825, 0.076 and 0.070.</p>
+<p>That reordering is important. If uncertainty failure were simply a monotonic function of geometric distance from the training ratios, we would expect the extrapolation case to be uniformly harder. It is not.</p>
+<p>The manuscript checks the mechanism directly. For every channel and conformal variant, the realised held-out coverage can be predicted by evaluating the <strong>held-out non-conformity-score distribution</strong> at the threshold fixed by the training simulations. This reproduces observed coverage to within 0.003 at <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span> and 0.001 at <span class="math inline">\(0.2\)</span>.</p>
+<p>So the failure is not an implementation bug. It is the expected consequence of applying an exchangeability-based calibration after the error distribution has changed.</p>
+</section>
+<section id="the-same-calibration-problem-appears-through-time" class="level2">
+<h2 class="anchored" data-anchor-id="the-same-calibration-problem-appears-through-time">The same calibration problem appears through time</h2>
+<p>Even within one held-out simulation, early and late snapshots need not have the same error distribution. The jet, cocoon and surrounding medium evolve, so the prediction problem itself changes.</p>
+<p>A simple split in which early snapshots calibrate later snapshots therefore also fails for some channels. At <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span>, for example, self-calibrated marginal coverage over later snapshots remains only 0.605 for <span class="math inline">\(v_x\)</span>, 0.745 for <span class="math inline">\(v_z\)</span> and 0.828 for internal energy.</p>
+<div id="fig-drift" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Non-conformity score versus simulation snapshot for the five predicted channels, showing channel-dependent drift through the trajectory.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-drift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-4-temporal-drift.png" class="img-fluid figure-img" alt="Non-conformity score versus simulation snapshot for the five predicted channels, showing channel-dependent drift through the trajectory.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-drift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Non-conformity scores change systematically through the held-out interpolation trajectory, providing a direct diagnostic of temporal non-stationarity in the surrogate errors.
+</figcaption>
+</figure>
+</div>
+<p>This matters because a one-off uncertainty calibration at the start of a simulation trajectory can become stale even when the physical control parameter itself does not change.</p>
+</section>
+<section id="adaptive-conformal-inference-turns-calibration-into-a-feedback-problem" class="level2">
+<h2 class="anchored" data-anchor-id="adaptive-conformal-inference-turns-calibration-into-a-feedback-problem">Adaptive conformal inference turns calibration into a feedback problem</h2>
+<p>PeCNO therefore uses <strong>Adaptive Conformal Inference (ACI)</strong> <span class="citation" data-cites="GibbsCandes2021">(<a href="#ref-GibbsCandes2021" role="doc-biblioref">Gibbs and Candes 2021</a>)</span>. Instead of choosing a correction once and assuming the future resembles the calibration set, ACI updates the calibration level whenever new reference information becomes available.</p>
+<p>The implemented update is</p>
+<p><span class="math display">\[
+\alpha_{t+1}
+=
+\operatorname{clip}\!\left(
+\alpha_t+\eta(\alpha-\mathrm{err}_t),
+-\eta,1+\eta
+\right),
+\]</span></p>
+<p>where <span class="math inline">\(\alpha\)</span> is the target miscoverage rate, <span class="math inline">\(\mathrm{err}_t\)</span> is the realised spatial miscoverage at the current feedback event and <span class="math inline">\(\eta\)</span> is the adaptation step size.</p>
+<p>Conceptually it behaves like a feedback controller. If recent intervals miss the truth too often, the controller adjusts in the direction that widens subsequent intervals. If they over-cover, it adjusts in the opposite direction.</p>
+<p>The corresponding guarantee is weaker than exchangeable split conformal prediction but more robust to a changing sequence. It controls <strong>time-averaged miscoverage over the feedback sequence</strong>. It does not say that every individual snapshot or every individual pixel receives 90% conditional coverage.</p>
+<div id="fig-aci" class="quarto-float quarto-figure quarto-figure-center anchored" alt="ACI diagnostics for lambda Eddington 0.02 and 0.2 showing running coverage, adaptive alpha and mean interval width for all five hydrodynamic channels.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-aci-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-5-aci-both-ratios.png" class="img-fluid figure-img" alt="ACI diagnostics for lambda Eddington 0.02 and 0.2 showing running coverage, adaptive alpha and mean interval width for all five hydrodynamic channels.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-aci-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Adaptive conformal inference at both held-out Eddington ratios. The running coverage is driven back toward the nominal 0.90 level while the adaptive calibration level and interval width evolve through time.
+</figcaption>
+</figure>
+</div>
+<p>With full-resolution feedback, the manuscript reports time-averaged fine-grid coverage after a 20-snapshot reporting burn-in between <strong>0.898 and 0.922 across all five channels and both held-out ratios</strong>.</p>
+<p>This includes difficult cases such as pressure at <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span>, whose cross-ratio static coverage had collapsed to 0.013. ACI does not make the pressure point prediction more accurate; it recalibrates the uncertainty interval so that its long-run failure frequency tracks the target.</p>
+<p>That distinction is fundamental:</p>
+<blockquote class="blockquote">
+<p><strong>Calibration can repair an uncertainty statement without repairing an inaccurate point predictor.</strong></p>
+</blockquote>
+</section>
+<section id="how-much-reference-information-is-needed" class="level2">
+<h2 class="anchored" data-anchor-id="how-much-reference-information-is-needed">How much reference information is needed?</h2>
+<p>A full <span class="math inline">\(512\times512\)</span> reference field is expensive information. A practical simulation twin would be more useful if uncertainty could be synchronised using a much smaller feedback channel.</p>
+<p>The manuscript therefore degrades the feedback field to box averages at progressively lower spatial resolutions: <span class="math inline">\(512\times512\)</span>, <span class="math inline">\(64\times64\)</span>, <span class="math inline">\(32\times32\)</span> and <span class="math inline">\(16\times16\)</span>.</p>
+<p>At <span class="math inline">\(16\times16\)</span>, the controller sees approximately <span class="math inline">\(10^{-3}\)</span> of the number of spatial values in the full <span class="math inline">\(512\times512\)</span> state.</p>
+<div id="fig-coarse" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two multi-panel plots showing ACI behaviour with feedback resolutions from 512 by 512 down to 16 by 16 for both held-out Eddington ratios.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-coarse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-6-coarse-feedback.png" class="img-fluid figure-img" alt="Two multi-panel plots showing ACI behaviour with feedback resolutions from 512 by 512 down to 16 by 16 for both held-out Eddington ratios.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coarse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: ACI with resolution-degraded feedback at both held-out Eddington ratios. The formal certificate applies at the feedback resolution; fine-grid coverage is shown separately as an empirical diagnostic.
+</figcaption>
+</figure>
+</div>
+<p>The important result is not that the guarantee magically transfers to the unobserved fine grid. It does <strong>not</strong>.</p>
+<p>The ACI certificate applies to the sequence that is actually observed — the box-mean feedback values at their own resolution. Fine-grid coverage is a separate empirical quantity.</p>
+<p>With <span class="math inline">\(16\times16\)</span> feedback, full-grid empirical coverage falls to roughly <strong>0.68–0.84</strong> depending on channel and Eddington ratio. The worst case is internal energy at <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span>, which falls to 0.680.</p>
+<p>This experiment therefore gives a much more useful answer than simply saying that sparse feedback “works”. It identifies both the information savings and the precise boundary of what remains mathematically certified.</p>
+</section>
+<section id="restoring-smaller-scale-structure-with-a-generative-residual" class="level2">
+<h2 class="anchored" data-anchor-id="restoring-smaller-scale-structure-with-a-generative-residual">Restoring smaller-scale structure with a generative residual</h2>
+<p>A deterministic regression model tends to learn repeatable large-scale structure and smooth over realisation-dependent smaller-scale detail. In the reported thermodynamic case, the deterministic surrogate already accounts for almost all low-wavenumber variance.</p>
+<p>PeCNO therefore adds a conditional diffusion residual model, following the broader denoising-diffusion framework <span class="citation" data-cites="Ho2020">(<a href="#ref-Ho2020" role="doc-biblioref">Ho et al. 2020</a>)</span>, whose role is not to redraw the large-scale jet but to restore some of the spatial power missing from the conditional mean.</p>
+<div id="fig-diffusion" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Density field comparison showing AREPO ground truth, conditional mean prediction, diffusion-augmented samples and generative ensemble standard deviation.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-diffusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-7-diffusion-density.png" class="img-fluid figure-img" alt="Density field comparison showing AREPO ground truth, conditional mean prediction, diffusion-augmented samples and generative ensemble standard deviation.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diffusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Example density reconstruction at snapshot 73. The AREPO field, deterministic conditional mean, diffusion-augmented samples and ensemble spread are compared over the full domain.
+</figcaption>
+</figure>
+</div>
+<section id="watching-the-residual-evolve-through-time" class="level3">
+<h3 class="anchored" data-anchor-id="watching-the-residual-evolve-through-time">Watching the residual evolve through time</h3>
+<p>A static reconstruction is useful for checking spatial structure, but it can hide an important failure mode: a generative residual can look convincing in one frame while behaving incoherently from one simulation snapshot to the next. The density animations therefore provide a complementary diagnostic. Each frame keeps the same five-way comparison: the gridded <strong>AREPO reference</strong>, the deterministic <strong>conditional mean</strong>, two independently sampled <strong>diffusion-augmented fields</strong>, and the <strong>ensemble standard deviation</strong> of the generative sampler.</p>
+<p>The complete animation set is organised across the two held-out physical regimes and three spatial windows. The interpolation case is <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span>; the extrapolation case is <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span>. The manuscript’s three zoom levels correspond to the full <span class="math inline">\(500\,\mathrm{kpc}\)</span> domain, a <span class="math inline">\(100\,\mathrm{kpc}\)</span> box centred on the black hole, and a <span class="math inline">\(20\,\mathrm{kpc}\)</span> central box. This lets the same model be inspected at the scale of the full jet/cocoon, at an intermediate scale, and in a close-up where the stochastic residual becomes visually dominant.</p>
+<p>The close-up below is the available preview from the <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span> animation. Its axes span approximately <span class="math inline">\(-10\)</span> to <span class="math inline">\(+10\,\mathrm{kpc}\)</span> in both directions, matching the manuscript’s <span class="math inline">\(20\,\mathrm{kpc}\)</span> central view.</p>
+<div id="fig-density-animation-preview" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Five-panel density evolution preview at lambda Eddington 0.02 showing AREPO, conditional mean, two diffusion samples and ensemble standard deviation in the central 20 kiloparsec region.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-density-animation-preview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/animations/density-zoom10-lambda-0p02-preview.png" class="img-fluid figure-img" alt="Five-panel density evolution preview at lambda Eddington 0.02 showing AREPO, conditional mean, two diffusion samples and ensemble standard deviation in the central 20 kiloparsec region.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-density-animation-preview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Preview frame from the density evolution diagnostic at <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span> in the central <span class="math inline">\(20\,\mathrm{kpc}\)</span> window. From left to right: gridded AREPO, PeCNO conditional mean, two diffusion samples, and generative ensemble standard deviation.
+</figcaption>
+</figure>
+</div>
+<p>There are two distinct questions to ask while reading these animations. First, does the conditional mean preserve the evolving large-scale morphology? Second, does the diffusion residual add predominantly smaller-scale variation rather than replacing the coherent jet and cocoon structure learned by the deterministic operator? Comparing the same zoom at <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span> and <span class="math inline">\(0.2\)</span> is especially useful because it separates behaviour under interpolation from behaviour under parameter extrapolation.</p>
+<p>The interpretation remains deliberately conservative. The <span class="math inline">\(100\,\mathrm{kpc}\)</span> and especially the <span class="math inline">\(20\,\mathrm{kpc}\)</span> close-ups magnify content below the native scale represented by the gridded training target. They therefore visualise <strong>generative extrapolation</strong>, not a validated reconstruction of unresolved AREPO turbulence. Likewise, the ensemble-standard-deviation panel measures variation across diffusion samples; it is <strong>not</strong> the calibrated predictive uncertainty produced by the conformal/ACI component of PeCNO.</p>
+</section>
+<section id="full-domain-evolution-500-kpc" class="level3">
+<h3 class="anchored" data-anchor-id="full-domain-evolution-500-kpc">Full-domain evolution — 500 kpc</h3>
+<p>At the largest scale, the animations show whether PeCNO preserves the time-dependent morphology of the complete jet and cocoon. The left-hand animation is the held-out interpolation regime, <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span>; the right-hand animation is the held-out extrapolation regime, <span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span>.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<section id="lambda_mathrmedd0.02-interpolation" class="level4">
+<h4 class="anchored" data-anchor-id="lambda_mathrmedd0.02-interpolation"><span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span> — interpolation</h4>
+<p><video src="figures/animations/density-zoom250-lambda-0p02.mp4" class="img-fluid" alt="Animated density evolution over the full 500 kpc domain at lambda Eddington 0.02, comparing AREPO, the PeCNO conditional mean, two diffusion samples and diffusion ensemble standard deviation." controls=""><a href="figures/animations/density-zoom250-lambda-0p02.mp4">Video</a></video></p>
+</section>
+</div><div class="column" style="width:50%;">
+<section id="lambda_mathrmedd0.2-extrapolation" class="level4">
+<h4 class="anchored" data-anchor-id="lambda_mathrmedd0.2-extrapolation"><span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span> — extrapolation</h4>
+<p><video src="figures/animations/density-zoom250-lambda-0p2.mp4" class="img-fluid" alt="Animated density evolution over the full 500 kpc domain at lambda Eddington 0.2, comparing AREPO, the PeCNO conditional mean, two diffusion samples and diffusion ensemble standard deviation." controls=""><a href="figures/animations/density-zoom250-lambda-0p2.mp4">Video</a></video></p>
+</section>
+</div>
+</div>
+</section>
+<section id="intermediate-scale-evolution-100-kpc" class="level3">
+<h3 class="anchored" data-anchor-id="intermediate-scale-evolution-100-kpc">Intermediate-scale evolution — 100 kpc</h3>
+<p>The 100 kpc view magnifies the central jet and cocoon. At this scale it becomes easier to distinguish the smooth deterministic prediction from the smaller-scale structure introduced by the conditional diffusion residual.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<section id="lambda_mathrmedd0.02-interpolation-1" class="level4">
+<h4 class="anchored" data-anchor-id="lambda_mathrmedd0.02-interpolation-1"><span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span> — interpolation</h4>
+<p><video src="figures/animations/density-zoom50-lambda-0p02.mp4" class="img-fluid" alt="Animated density evolution over the central 100 kpc region at lambda Eddington 0.02." controls=""><a href="figures/animations/density-zoom50-lambda-0p02.mp4">Video</a></video></p>
+</section>
+</div><div class="column" style="width:50%;">
+<section id="lambda_mathrmedd0.2-extrapolation-1" class="level4">
+<h4 class="anchored" data-anchor-id="lambda_mathrmedd0.2-extrapolation-1"><span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span> — extrapolation</h4>
+<p><video src="figures/animations/density-zoom50-lambda-0p2.mp4" class="img-fluid" alt="Animated density evolution over the central 100 kpc region at lambda Eddington 0.2." controls=""><a href="figures/animations/density-zoom50-lambda-0p2.mp4">Video</a></video></p>
+</section>
+</div>
+</div>
+</section>
+<section id="close-up-evolution-20-kpc" class="level3">
+<h3 class="anchored" data-anchor-id="close-up-evolution-20-kpc">Close-up evolution — 20 kpc</h3>
+<p>The closest view exposes the distinction between deterministic structure and the stochastic residual most clearly. The AREPO field and conditional mean show the large-scale state, while the diffusion samples add increasingly visible fine-scale variation.</p>
+<p>This view must be interpreted carefully. Structure at these scales should not be read as a validated reconstruction of unresolved AREPO turbulence. It is <strong>generative extrapolation below the effective scale represented by the gridded training target</strong>.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<section id="lambda_mathrmedd0.02-interpolation-2" class="level4">
+<h4 class="anchored" data-anchor-id="lambda_mathrmedd0.02-interpolation-2"><span class="math inline">\(\lambda_{\mathrm{Edd}}=0.02\)</span> — interpolation</h4>
+<p><video src="figures/animations/density-zoom10-lambda-0p02.mp4" class="img-fluid" alt="Animated density evolution over the central 20 kpc region at lambda Eddington 0.02." controls=""><a href="figures/animations/density-zoom10-lambda-0p02.mp4">Video</a></video></p>
+</section>
+</div><div class="column" style="width:50%;">
+<section id="lambda_mathrmedd0.2-extrapolation-2" class="level4">
+<h4 class="anchored" data-anchor-id="lambda_mathrmedd0.2-extrapolation-2"><span class="math inline">\(\lambda_{\mathrm{Edd}}=0.2\)</span> — extrapolation</h4>
+<p><video src="figures/animations/density-zoom10-lambda-0p2.mp4" class="img-fluid" alt="Animated density evolution over the central 20 kpc region at lambda Eddington 0.2." controls=""><a href="figures/animations/density-zoom10-lambda-0p2.mp4">Video</a></video></p>
+</section>
+</div>
+</div>
+<p>The manuscript is deliberately cautious about this component. Visually plausible texture is not sufficient evidence of correct physics. The generated residual is therefore tested in Fourier space.</p>
+<div id="fig-spectra" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Stacked angle-averaged power spectra for density, pressure and internal energy comparing the conditional mean, raw diffusion residual, spectrally capped residual and gridded AREPO reference.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-spectra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/figure-8-capped-spectra.png" class="img-fluid figure-img" alt="Stacked angle-averaged power spectra for density, pressure and internal energy comparing the conditional mean, raw diffusion residual, spectrally capped residual and gridded AREPO reference.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-spectra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Power-spectrum audit for density, pressure and internal energy. The diffusion residual restores some intermediate-scale power but over-adds power near the grid Nyquist; a one-sided spectral cap reduces but does not eliminate that excess.
+</figcaption>
+</figure>
+</div>
+<p>The diffusion-augmented prediction recovers useful intermediate-scale power, particularly for density, but the raw residual creates excess high-wavenumber power. After spectral capping, the remaining high-<span class="math inline">\(k\)</span> excess is still approximately <strong>+0.24 to +1.17 dex</strong> across the three thermodynamic channels and both held-out ratios.</p>
+<p>Sub-native-grid structure should therefore be interpreted as <strong>generative extrapolation</strong>, not as a validated reconstruction of unresolved AREPO turbulence. The diffusion ensemble spread is likewise the spread of the sampler, not a turbulence-uncertainty estimate.</p>
+</section>
+</section>
+<section id="what-pecno-means-by-a-simulation-digital-twin" class="level2">
+<h2 class="anchored" data-anchor-id="what-pecno-means-by-a-simulation-digital-twin">What PeCNO means by a simulation digital twin</h2>
+<p>The manuscript uses <em>digital twin</em> in a restricted operational sense.</p>
+<p>PeCNO provides a rapidly evaluated estimate of the simulated state. Occasional reference observations can then act as a synchronisation channel through which uncertainty is recalibrated online.</p>
+<p>It is <strong>not yet</strong> a closed-loop autonomous system that decides which new AREPO simulations to launch. The current contribution is the surrogate-and-synchronisation component that such a system could use.</p>
+<p>This distinction is useful because it separates three questions that are often conflated:</p>
+<ol type="1">
+<li>Can the surrogate approximate the physical state?</li>
+<li>Can selected physical relationships be enforced exactly in the representation being used?</li>
+<li>Can the uncertainty statement remain valid as the deployment distribution evolves?</li>
+</ol>
+<p>The experiments show that these questions can have very different answers for the same model.</p>
+</section>
+<section id="what-this-work-has-taught-me" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-work-has-taught-me">What this work has taught me</h2>
+<p>Several lessons extend beyond AGN jets.</p>
+<p>A physics-aware neural architecture is not automatically physically correct; if a relation matters, it can be valuable to distinguish <strong>soft encouragement</strong> from <strong>hard enforcement</strong>.</p>
+<p>A high spatial correlation does not imply a low physical error: the extrapolated pressure field is a clear example of a well-correlated but strongly biased prediction.</p>
+<p>A nominal uncertainty level measured on training-like data is not evidence that the same interval remains calibrated at a new physical parameter value.</p>
+<p>Distribution shift is not necessarily monotonic in distance from the training set. The extrapolation ratio is not uniformly harder than the interpolation ratio.</p>
+<p>Online calibration can remain meaningful under temporal non-stationarity, but the guarantee must be stated at the resolution and along the sequence on which feedback is actually observed.</p>
+<p>Generated high-resolution structure should be validated spectrally rather than accepted because it looks convincing.</p>
+<p>Finally, discovering what not to do is equally scientifically significant.</p>
+</section>
+<section id="why-this-matters-beyond-agn-jets" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-matters-beyond-agn-jets">Why this matters beyond AGN jets</h2>
+<p>The statistical result is not specific to astrophysics. The same problem arises whenever a surrogate for a parameterised physical model is calibrated in one region of parameter space and then deployed somewhere else.</p>
+<p>That includes cosmological simulation, fusion and plasma modelling, computational fluid dynamics, climate and environmental modelling, engineering digital twins and other settings in which full-order simulations are too expensive to run densely.</p>
+<p>The broader question is therefore:</p>
+<blockquote class="blockquote">
+<p><strong>How can a scientific surrogate remain useful when the physical regime evolves, the reference model is expensive, and the uncertainty model itself may go out of calibration?</strong></p>
+</blockquote>
+<p>PeCNO treats prediction, physical consistency and uncertainty calibration as related but distinct scientific problems — and makes the failure modes visible rather than hiding them behind a single headline accuracy score.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-BourneSijacki2017" class="csl-entry" role="listitem">
+Bourne, Martin A, and Debora Sijacki. 2017. <span>“AGN Jet Feedback on a Moving Mesh: Cocoon Inflation, Gas Flows and Turbulence.”</span> <em>Monthly Notices of the Royal Astronomical Society</em> 472 (4): 4707–35.
+</div>
+<div id="ref-BourneYang2022" class="csl-entry" role="listitem">
+Bourne, Martin A, and Hsiang-Yi Karen Yang. 2023. <span>“Recent Progress in Modeling the Macro-and Micro-Physics of Radio Jet Feedback in Galaxy Clusters.”</span> <em>Galaxies</em> 11 (3): 73.
+</div>
+<div id="ref-GibbsCandes2021" class="csl-entry" role="listitem">
+Gibbs, Isaac, and Emmanuel Candes. 2021. <span>“Adaptive Conformal Inference Under Distribution Shift.”</span> <em>Advances in Neural Information Processing Systems</em> 34: 1660–72.
+</div>
+<div id="ref-Ho2020" class="csl-entry" role="listitem">
+Ho, Jonathan, Ajay Jain, and Pieter Abbeel. 2020. <span>“Denoising Diffusion Probabilistic Models.”</span> <em>Advances in Neural Information Processing Systems</em> 33: 6840–51.
+</div>
+<div id="ref-Perez2018" class="csl-entry" role="listitem">
+Perez, Ethan, Florian Strub, Harm De Vries, Vincent Dumoulin, and Aaron Courville. 2018. <span>“Film: Visual Reasoning with a General Conditioning Layer.”</span> <em>Proceedings of the AAAI Conference on Artificial Intelligence</em> 32.
+</div>
+<div id="ref-rahimi2007" class="csl-entry" role="listitem">
+Rahimi, Ali, and Benjamin Recht. 2007. <span>“Random Features for Large-Scale Kernel Machines.”</span> <em>Advances in Neural Information Processing Systems</em> 20.
+</div>
+<div id="ref-Romano2019" class="csl-entry" role="listitem">
+Romano, Yaniv, Evan Patterson, and Emmanuel Candes. 2019. <span>“Conformalized Quantile Regression.”</span> <em>Advances in Neural Information Processing Systems</em> 32.
+</div>
+<div id="ref-Sitzmann2020" class="csl-entry" role="listitem">
+Sitzmann, Vincent, Julien Martel, Alexander Bergman, David Lindell, and Gordon Wetzstein. 2020. <span>“Implicit Neural Representations with Periodic Activation Functions.”</span> <em>Advances in Neural Information Processing Systems</em> 33: 7462–73.
+</div>
+<div id="ref-Vovk2005" class="csl-entry" role="listitem">
+Vovk, Vladimir, Alexander Gammerman, and Glenn Shafer. 2005. <em>Algorithmic Learning in a Random World</em>. Springer.
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Craig Bower</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Scientific AI · Decision-making under uncertainty</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

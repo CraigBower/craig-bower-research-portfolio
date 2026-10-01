@@ -1,0 +1,709 @@
+[
+  {
+    "objectID": "writing.html",
+    "href": "writing.html",
+    "title": "Writing",
+    "section": "",
+    "text": "This section will contain accessible technical essays, research case studies and research-notebook pieces. The aim is to explain not only successful results, but also the reasoning, uncertainty, failure modes and scientific decisions behind the work."
+  },
+  {
+    "objectID": "writing.html#case-studies",
+    "href": "writing.html#case-studies",
+    "title": "Writing",
+    "section": "Case studies",
+    "text": "Case studies\n\nHyperFlux: Building a Scientific Digital Twin That Learns"
+  },
+  {
+    "objectID": "writing.html#planned-research-notes",
+    "href": "writing.html#planned-research-notes",
+    "title": "Writing",
+    "section": "Planned research notes",
+    "text": "Planned research notes\n\nWhen a scientifically plausible transfer model fails\nWhat does it mean for a machine-learning model to “learn” a physical parameter?\nWhat is a scientific computation worth?\nDetecting change when you cannot monitor everything"
+  },
+  {
+    "objectID": "projects.html",
+    "href": "projects.html",
+    "title": "Projects",
+    "section": "",
+    "text": "Read the full case study →\nA self-learning scientific digital twin for carbon exchange in intensively managed lowland peat agriculture. The work combines explicit ecosystem physics, graph-based learning, probabilistic prediction and sequential field-specific adaptation."
+  },
+  {
+    "objectID": "projects.html#hyperflux",
+    "href": "projects.html#hyperflux",
+    "title": "Projects",
+    "section": "",
+    "text": "Read the full case study →\nA self-learning scientific digital twin for carbon exchange in intensively managed lowland peat agriculture. The work combines explicit ecosystem physics, graph-based learning, probabilistic prediction and sequential field-specific adaptation."
+  },
+  {
+    "objectID": "projects.html#variable-interaction-graph-networks-vignet",
+    "href": "projects.html#variable-interaction-graph-networks-vignet",
+    "title": "Projects",
+    "section": "Variable-Interaction Graph Networks (VIGNet)",
+    "text": "Variable-Interaction Graph Networks (VIGNet)\nRead the full case study →\nA graph neural-operator framework in which the graph is derived from the governing PDEs: nodes are physical variables and edges are genuine mechanistic dependencies. The project establishes universal-approximation, graph-depth, dependent-data generalisation and graph-mis-specification results, and validates them on coupled elastic, morphogen and FitzHugh–Nagumo systems."
+  },
+  {
+    "objectID": "projects.html#abbda",
+    "href": "projects.html#abbda",
+    "title": "Projects",
+    "section": "ABBDA",
+    "text": "ABBDA\nRead the full case study →\nAdaptive sensing for quickest change detection under hard observation budgets. ABBDA learns how to allocate a fixed number of observations across massive data streams while preserving coverage, detecting persistent change and identifying its source."
+  },
+  {
+    "objectID": "projects.html#adaptive-scientific-campaigns",
+    "href": "projects.html#adaptive-scientific-campaigns",
+    "title": "Projects",
+    "section": "Adaptive Scientific Campaigns",
+    "text": "Adaptive Scientific Campaigns\nPortfolio case study in preparation. A programme of research into the value of scientific computations and the design of self-steering simulation campaigns."
+  },
+  {
+    "objectID": "projects.html#physics-enforced-continuous-neural-operator-pecno",
+    "href": "projects.html#physics-enforced-continuous-neural-operator-pecno",
+    "title": "Projects",
+    "section": "Physics-Enforced Continuous Neural Operator (PeCNO)",
+    "text": "Physics-Enforced Continuous Neural Operator (PeCNO)\nRead the full case study →\nA continuous surrogate for idealised AGN jet simulations that maps space, time and Eddington ratio to hydrodynamic fields, enforces selected physical constraints after prediction, diagnoses conformal-calibration failure under parameter and temporal shift, and recalibrates uncertainty online using adaptive conformal inference."
+  },
+  {
+    "objectID": "projects/pecno/index.html",
+    "href": "projects/pecno/index.html",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "",
+    "text": "High-resolution simulations of active galactic nucleus (AGN) jets are scientifically valuable and computationally expensive. The moving-mesh calculations used in this work can require of order \\(10^5\\) CPU-hours for a single high-resolution feedback calculation (Bourne and Sijacki 2017). The Eddington ratio compares how fast a supermassive black hole is actually swallowing surrounding matter with its theoretical limit. That makes dense exploration of physical parameters such as the Eddington ratio impractical.\nA learned surrogate offers a possible alternative: run a limited number of expensive simulations, learn their common structure, and then query the surrogate at physical conditions that have not themselves been simulated.\nBut that immediately creates a harder question than ordinary prediction:\nMy work on PeCNO, a physics-enforced continuous neural-field/operator surrogate, studies this question using idealised AGN jet–intracluster-medium simulations. The system combines a continuous coordinate-based predictor, explicit post-prediction physics projection, non-crossing uncertainty heads, conformal calibration, adaptive conformal inference and a controlled generative residual for smaller spatial scales.\nThe most important result is not simply that the surrogate can produce plausible fields. It is that uncertainty calibration that works on the simulations used for calibration can fail badly at an unseen physical parameter value — and online feedback can repair that failure in a precisely defined sense."
+  },
+  {
+    "objectID": "projects/pecno/index.html#the-scientific-problem",
+    "href": "projects/pecno/index.html#the-scientific-problem",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "The scientific problem",
+    "text": "The scientific problem\nThe simulations follow AGN jets interacting with the surrounding intracluster medium, a setting in which jets inflate cavities, drive shocks and turbulence and redistribute energy through the surrounding gas (Bourne and Yang 2023).\nThe study uses six idealised AREPO simulation sequences. Each sequence contains 151 snapshots separated by 0.5 Myr. For machine-learning purposes each snapshot is represented as a \\(512\\times512\\) planar \\((x,z)\\) slice covering a 500 kpc domain.\nAt every spatial location the surrogate predicts five fields:\n\\[\n\\mathbf u=(\\rho,p,\\varepsilon,v_x,v_z),\n\\]\nwhere \\(\\rho\\) is density, \\(p\\) is pressure, \\(\\varepsilon\\) is specific internal energy and \\(v_x,v_z\\) are the two in-plane velocity components.\nFour Eddington ratios are used for training:\n\\[\n\\lambda_{\\mathrm{Edd}}\\in\\{0.001,0.002,0.01,0.1\\}.\n\\]\nTwo simulations are hidden completely from training. The held-out value \\(\\lambda_{\\mathrm{Edd}}=0.02\\) lies inside the training range and therefore tests interpolation. The held-out value \\(\\lambda_{\\mathrm{Edd}}=0.2\\) lies outside the training range and tests extrapolation.\nThat distinction is important because a surrogate is useful precisely when we want to query a physical condition for which the expensive reference simulation has not already been run."
+  },
+  {
+    "objectID": "projects/pecno/index.html#a-continuous-field-rather-than-a-fixed-image-generator",
+    "href": "projects/pecno/index.html#a-continuous-field-rather-than-a-fixed-image-generator",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "A continuous field rather than a fixed image generator",
+    "text": "A continuous field rather than a fixed image generator\nThe central object learned by PeCNO is a continuous map\n\\[\n(x,z,t,\\lambda_{\\mathrm{Edd}})\n\\longmapsto\n(\\hat\\rho,\\hat p,\\hat\\varepsilon,\\hat v_x,\\hat v_z).\n\\]\nRather than predicting only one fixed \\(512\\times512\\) image, the model represents the physical fields as functions of spatial coordinates, evolutionary time and Eddington ratio.\nSpatial position answers where the field is being queried. Time and Eddington ratio answer which physical state is required.\nTo represent several spatial scales, the model first maps coordinates through Gaussian random Fourier features (Rahimi and Recht 2007). These make a range of spatial frequencies readily available to the network. A SIREN trunk then represents the continuous field using sinusoidal neural layers (Sitzmann et al. 2020).\nTime and \\(\\log_{10}\\lambda_{\\mathrm{Edd}}\\) condition the spatial representation through feature-wise linear modulation, or FiLM (Perez et al. 2018). In plain terms, the spatial trunk learns a reusable set of spatial structures while the conditioning network learns how strongly those structures should appear at a particular time and Eddington ratio.\nThe base operator used for the manuscript’s fidelity and uncertainty experiments contains 147,087 trainable parameters."
+  },
+  {
+    "objectID": "projects/pecno/index.html#predicting-uncertainty-as-well-as-the-field",
+    "href": "projects/pecno/index.html#predicting-uncertainty-as-well-as-the-field",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "Predicting uncertainty as well as the field",
+    "text": "Predicting uncertainty as well as the field\nA scientific surrogate should not return only a point estimate. PeCNO therefore predicts non-crossing lower, central and upper quantile fields for every hydrodynamic channel.\nThose raw neural intervals are useful, but they are not automatically calibrated. If an interval is described as a nominal 90% interval, we would like approximately 90% of future observations to fall inside it under the conditions covered by the statistical guarantee.\nConformal prediction provides a way to calibrate such intervals using previous prediction errors (Vovk et al. 2005; Romano et al. 2019). Standard split conformal prediction is attractive because its finite-sample marginal coverage result makes very weak assumptions about the underlying predictor.\nIt does, however, require a crucial condition: the calibration and test errors must be exchangeable — roughly, statistically interchangeable.\nFor a parameterised scientific surrogate this is exactly the assumption that may fail. An error made at \\(\\lambda_{\\mathrm{Edd}}=0.001\\) need not have the same distribution as an error made at \\(\\lambda_{\\mathrm{Edd}}=0.2\\). The same issue can arise through time as a jet evolves from an early state into a later, dynamically different state."
+  },
+  {
+    "objectID": "projects/pecno/index.html#physics-is-enforced-after-the-neural-prediction",
+    "href": "projects/pecno/index.html#physics-is-enforced-after-the-neural-prediction",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "Physics is enforced after the neural prediction",
+    "text": "Physics is enforced after the neural prediction\nPeCNO does not rely only on soft physics penalties during training. The network first proposes a state, and selected physical relations are then imposed by deterministic a posteriori projection.\nThe correction sequence is\n\\[\n\\mathsf C_1\\rightarrow\\mathsf C_2\\rightarrow\\mathsf C_3,\n\\]\ncorresponding to positivity of the thermodynamic variables, consistency with the ideal-gas equation of state, and consistency with a planar continuity equation.\nThis distinction matters: a training penalty can encourage a relation, whereas a projection can enforce the chosen constraint to numerical precision.\n\n\n\n\n\n\nFigure 2: Physics projection diagnostics. Left: the equation-of-state residual before and after projection in the correct normalised coordinate system. Right: the planar continuity residual before and after the Helmholtz–Hodge correction.\n\n\n\nThe physics results are substantial. At \\(\\lambda_{\\mathrm{Edd}}=0.02\\), the Helmholtz–Hodge projection reduces the RMS planar-continuity residual from \\(5.13\\times10^{-3}\\) to \\(1.33\\times10^{-6}\\), a factor of about \\(3.9\\times10^3\\). At \\(\\lambda_{\\mathrm{Edd}}=0.2\\) the reduction is from \\(6.13\\times10^{-3}\\) to \\(4.86\\times10^{-7}\\), a factor of about \\(1.3\\times10^4\\).\nThe equation-of-state calculation exposed another important lesson. Because each simulation was min–max normalised separately, the ideal-gas law cannot be applied naively in the normalised coordinates. The physical relation must first be transformed through the per-file affine normalisation. A naive residual of about 0.65 is therefore a coordinate artefact, not evidence that the simulation violates the ideal-gas law. Using the correct transformed relation and projecting onto it reduces the residual to \\(7.2\\times10^{-8}\\).\nThere is also an important limitation: the continuity condition is the planar equation for the two-dimensional slice. A slice of an intrinsically three-dimensional flow does not itself contain the out-of-plane flux divergence. The projection is therefore an internal consistency condition for the surrogate representation, not a claim that full three-dimensional mass conservation has been reconstructed."
+  },
+  {
+    "objectID": "projects/pecno/index.html#what-the-point-predictions-get-right-and-where-they-fail",
+    "href": "projects/pecno/index.html#what-the-point-predictions-get-right-and-where-they-fail",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "What the point predictions get right — and where they fail",
+    "text": "What the point predictions get right — and where they fail\nThe thermodynamic fields retain substantial spatial fidelity at both held-out Eddington ratios, but the results are not uniformly strong across channels.\n\n\n\n\n\n\n\n\n\n\nHeld-out ratio\nChannel\nCorrelation \\(r\\)\nrelRMSE\nInterpretation\n\n\n\n\n\\(0.02\\)\nDensity \\(\\rho\\)\n0.926\n0.446\nStrong large-scale spatial recovery\n\n\n\\(0.02\\)\nPressure \\(p\\)\n0.992\n0.182\nStrongest interpolation result\n\n\n\\(0.02\\)\nInternal energy \\(\\varepsilon\\)\n0.890\n0.468\nGood structural recovery with missing smaller scales\n\n\n\\(0.02\\)\n\\(v_x\\)\n0.193\n2.240\nEssentially untracked\n\n\n\\(0.02\\)\n\\(v_z\\)\n0.706\n1.244\nSpatial structure present, but large bias\n\n\n\\(0.2\\)\nDensity \\(\\rho\\)\n0.956\n0.318\nStrong extrapolation result\n\n\n\\(0.2\\)\nPressure \\(p\\)\n0.980\n1.003\nHigh correlation but severe mean offset\n\n\n\\(0.2\\)\nInternal energy \\(\\varepsilon\\)\n0.945\n0.331\nStrong extrapolation result\n\n\n\\(0.2\\)\n\\(v_x\\)\n0.120\n2.825\nEssentially untracked\n\n\n\\(0.2\\)\n\\(v_z\\)\n0.894\n0.497\nMarkedly better than at \\(0.02\\)\n\n\n\nThis table illustrates why a single headline error metric is not enough. Pressure at \\(\\lambda_{\\mathrm{Edd}}=0.2\\) has correlation \\(r=0.980\\) but relRMSE \\(1.003\\) because the field has a large systematic offset. By contrast, \\(v_x\\) has near-zero correlation at both ratios, so an offset correction would not repair the missing spatial structure.\nIt also shows why simple distance from the training range is not a reliable proxy for difficulty. Several thermodynamic channels correlate better at the extrapolation ratio \\(0.2\\) than at the interpolation ratio \\(0.02\\)."
+  },
+  {
+    "objectID": "projects/pecno/index.html#central-result-conformal-coverage-does-not-transfer-across-eddington-ratio",
+    "href": "projects/pecno/index.html#central-result-conformal-coverage-does-not-transfer-across-eddington-ratio",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "Central result: conformal coverage does not transfer across Eddington ratio",
+    "text": "Central result: conformal coverage does not transfer across Eddington ratio\nThe central experiment asks whether uncertainty calibrated on the training simulations remains valid at an unseen Eddington ratio.\nIt does not.\nIntervals calibrated for nominal 90% coverage on the four training ratios achieve median coverage of only 1.5%–36% across channels and conformal variants at \\(\\lambda_{\\mathrm{Edd}}=0.02\\), and 1.3%–82% at \\(\\lambda_{\\mathrm{Edd}}=0.2\\).\n\n\n\n\n\n\nFigure 3: Cross-Eddington-ratio conformal calibration at the held-out interpolation ratio. The nominal 90% target is not maintained when the calibration-score distribution does not match the deployment-score distribution.\n\n\n\nFor the marginal conformal variant, the median coverages are especially revealing. At \\(\\lambda_{\\mathrm{Edd}}=0.02\\), density, pressure, internal energy, \\(v_x\\) and \\(v_z\\) achieve 0.035, 0.341, 0.355, 0.035 and 0.020 respectively. At \\(\\lambda_{\\mathrm{Edd}}=0.2\\) the same fixed calibration gives 0.459, 0.013, 0.825, 0.076 and 0.070.\nThat reordering is important. If uncertainty failure were simply a monotonic function of geometric distance from the training ratios, we would expect the extrapolation case to be uniformly harder. It is not.\nThe manuscript checks the mechanism directly. For every channel and conformal variant, the realised held-out coverage can be predicted by evaluating the held-out non-conformity-score distribution at the threshold fixed by the training simulations. This reproduces observed coverage to within 0.003 at \\(\\lambda_{\\mathrm{Edd}}=0.02\\) and 0.001 at \\(0.2\\).\nSo the failure is not an implementation bug. It is the expected consequence of applying an exchangeability-based calibration after the error distribution has changed."
+  },
+  {
+    "objectID": "projects/pecno/index.html#the-same-calibration-problem-appears-through-time",
+    "href": "projects/pecno/index.html#the-same-calibration-problem-appears-through-time",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "The same calibration problem appears through time",
+    "text": "The same calibration problem appears through time\nEven within one held-out simulation, early and late snapshots need not have the same error distribution. The jet, cocoon and surrounding medium evolve, so the prediction problem itself changes.\nA simple split in which early snapshots calibrate later snapshots therefore also fails for some channels. At \\(\\lambda_{\\mathrm{Edd}}=0.2\\), for example, self-calibrated marginal coverage over later snapshots remains only 0.605 for \\(v_x\\), 0.745 for \\(v_z\\) and 0.828 for internal energy.\n\n\n\n\n\n\nFigure 4: Non-conformity scores change systematically through the held-out interpolation trajectory, providing a direct diagnostic of temporal non-stationarity in the surrogate errors.\n\n\n\nThis matters because a one-off uncertainty calibration at the start of a simulation trajectory can become stale even when the physical control parameter itself does not change."
+  },
+  {
+    "objectID": "projects/pecno/index.html#adaptive-conformal-inference-turns-calibration-into-a-feedback-problem",
+    "href": "projects/pecno/index.html#adaptive-conformal-inference-turns-calibration-into-a-feedback-problem",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "Adaptive conformal inference turns calibration into a feedback problem",
+    "text": "Adaptive conformal inference turns calibration into a feedback problem\nPeCNO therefore uses Adaptive Conformal Inference (ACI) (Gibbs and Candes 2021). Instead of choosing a correction once and assuming the future resembles the calibration set, ACI updates the calibration level whenever new reference information becomes available.\nThe implemented update is\n\\[\n\\alpha_{t+1}\n=\n\\operatorname{clip}\\!\\left(\n\\alpha_t+\\eta(\\alpha-\\mathrm{err}_t),\n-\\eta,1+\\eta\n\\right),\n\\]\nwhere \\(\\alpha\\) is the target miscoverage rate, \\(\\mathrm{err}_t\\) is the realised spatial miscoverage at the current feedback event and \\(\\eta\\) is the adaptation step size.\nConceptually it behaves like a feedback controller. If recent intervals miss the truth too often, the controller adjusts in the direction that widens subsequent intervals. If they over-cover, it adjusts in the opposite direction.\nThe corresponding guarantee is weaker than exchangeable split conformal prediction but more robust to a changing sequence. It controls time-averaged miscoverage over the feedback sequence. It does not say that every individual snapshot or every individual pixel receives 90% conditional coverage.\n\n\n\n\n\n\nFigure 5: Adaptive conformal inference at both held-out Eddington ratios. The running coverage is driven back toward the nominal 0.90 level while the adaptive calibration level and interval width evolve through time.\n\n\n\nWith full-resolution feedback, the manuscript reports time-averaged fine-grid coverage after a 20-snapshot reporting burn-in between 0.898 and 0.922 across all five channels and both held-out ratios.\nThis includes difficult cases such as pressure at \\(\\lambda_{\\mathrm{Edd}}=0.2\\), whose cross-ratio static coverage had collapsed to 0.013. ACI does not make the pressure point prediction more accurate; it recalibrates the uncertainty interval so that its long-run failure frequency tracks the target.\nThat distinction is fundamental:\n\nCalibration can repair an uncertainty statement without repairing an inaccurate point predictor."
+  },
+  {
+    "objectID": "projects/pecno/index.html#how-much-reference-information-is-needed",
+    "href": "projects/pecno/index.html#how-much-reference-information-is-needed",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "How much reference information is needed?",
+    "text": "How much reference information is needed?\nA full \\(512\\times512\\) reference field is expensive information. A practical simulation twin would be more useful if uncertainty could be synchronised using a much smaller feedback channel.\nThe manuscript therefore degrades the feedback field to box averages at progressively lower spatial resolutions: \\(512\\times512\\), \\(64\\times64\\), \\(32\\times32\\) and \\(16\\times16\\).\nAt \\(16\\times16\\), the controller sees approximately \\(10^{-3}\\) of the number of spatial values in the full \\(512\\times512\\) state.\n\n\n\n\n\n\nFigure 6: ACI with resolution-degraded feedback at both held-out Eddington ratios. The formal certificate applies at the feedback resolution; fine-grid coverage is shown separately as an empirical diagnostic.\n\n\n\nThe important result is not that the guarantee magically transfers to the unobserved fine grid. It does not.\nThe ACI certificate applies to the sequence that is actually observed — the box-mean feedback values at their own resolution. Fine-grid coverage is a separate empirical quantity.\nWith \\(16\\times16\\) feedback, full-grid empirical coverage falls to roughly 0.68–0.84 depending on channel and Eddington ratio. The worst case is internal energy at \\(\\lambda_{\\mathrm{Edd}}=0.2\\), which falls to 0.680.\nThis experiment therefore gives a much more useful answer than simply saying that sparse feedback “works”. It identifies both the information savings and the precise boundary of what remains mathematically certified."
+  },
+  {
+    "objectID": "projects/pecno/index.html#restoring-smaller-scale-structure-with-a-generative-residual",
+    "href": "projects/pecno/index.html#restoring-smaller-scale-structure-with-a-generative-residual",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "Restoring smaller-scale structure with a generative residual",
+    "text": "Restoring smaller-scale structure with a generative residual\nA deterministic regression model tends to learn repeatable large-scale structure and smooth over realisation-dependent smaller-scale detail. In the reported thermodynamic case, the deterministic surrogate already accounts for almost all low-wavenumber variance.\nPeCNO therefore adds a conditional diffusion residual model, following the broader denoising-diffusion framework (Ho et al. 2020), whose role is not to redraw the large-scale jet but to restore some of the spatial power missing from the conditional mean.\n\n\n\n\n\n\nFigure 7: Example density reconstruction at snapshot 73. The AREPO field, deterministic conditional mean, diffusion-augmented samples and ensemble spread are compared over the full domain.\n\n\n\n\nWatching the residual evolve through time\nA static reconstruction is useful for checking spatial structure, but it can hide an important failure mode: a generative residual can look convincing in one frame while behaving incoherently from one simulation snapshot to the next. The density animations therefore provide a complementary diagnostic. Each frame keeps the same five-way comparison: the gridded AREPO reference, the deterministic conditional mean, two independently sampled diffusion-augmented fields, and the ensemble standard deviation of the generative sampler.\nThe complete animation set is organised across the two held-out physical regimes and three spatial windows. The interpolation case is \\(\\lambda_{\\mathrm{Edd}}=0.02\\); the extrapolation case is \\(\\lambda_{\\mathrm{Edd}}=0.2\\). The manuscript’s three zoom levels correspond to the full \\(500\\,\\mathrm{kpc}\\) domain, a \\(100\\,\\mathrm{kpc}\\) box centred on the black hole, and a \\(20\\,\\mathrm{kpc}\\) central box. This lets the same model be inspected at the scale of the full jet/cocoon, at an intermediate scale, and in a close-up where the stochastic residual becomes visually dominant.\nThe close-up below is the available preview from the \\(\\lambda_{\\mathrm{Edd}}=0.02\\) animation. Its axes span approximately \\(-10\\) to \\(+10\\,\\mathrm{kpc}\\) in both directions, matching the manuscript’s \\(20\\,\\mathrm{kpc}\\) central view.\n\n\n\n\n\n\nFigure 8: Preview frame from the density evolution diagnostic at \\(\\lambda_{\\mathrm{Edd}}=0.02\\) in the central \\(20\\,\\mathrm{kpc}\\) window. From left to right: gridded AREPO, PeCNO conditional mean, two diffusion samples, and generative ensemble standard deviation.\n\n\n\nThere are two distinct questions to ask while reading these animations. First, does the conditional mean preserve the evolving large-scale morphology? Second, does the diffusion residual add predominantly smaller-scale variation rather than replacing the coherent jet and cocoon structure learned by the deterministic operator? Comparing the same zoom at \\(\\lambda_{\\mathrm{Edd}}=0.02\\) and \\(0.2\\) is especially useful because it separates behaviour under interpolation from behaviour under parameter extrapolation.\nThe interpretation remains deliberately conservative. The \\(100\\,\\mathrm{kpc}\\) and especially the \\(20\\,\\mathrm{kpc}\\) close-ups magnify content below the native scale represented by the gridded training target. They therefore visualise generative extrapolation, not a validated reconstruction of unresolved AREPO turbulence. Likewise, the ensemble-standard-deviation panel measures variation across diffusion samples; it is not the calibrated predictive uncertainty produced by the conformal/ACI component of PeCNO.\n\n\nFull-domain evolution — 500 kpc\nAt the largest scale, the animations show whether PeCNO preserves the time-dependent morphology of the complete jet and cocoon. The left-hand animation is the held-out interpolation regime, \\(\\lambda_{\\mathrm{Edd}}=0.02\\); the right-hand animation is the held-out extrapolation regime, \\(\\lambda_{\\mathrm{Edd}}=0.2\\).\n\n\n\n\\(\\lambda_{\\mathrm{Edd}}=0.02\\) — interpolation\nVideo\n\n\n\n\\(\\lambda_{\\mathrm{Edd}}=0.2\\) — extrapolation\nVideo\n\n\n\n\n\nIntermediate-scale evolution — 100 kpc\nThe 100 kpc view magnifies the central jet and cocoon. At this scale it becomes easier to distinguish the smooth deterministic prediction from the smaller-scale structure introduced by the conditional diffusion residual.\n\n\n\n\\(\\lambda_{\\mathrm{Edd}}=0.02\\) — interpolation\nVideo\n\n\n\n\\(\\lambda_{\\mathrm{Edd}}=0.2\\) — extrapolation\nVideo\n\n\n\n\n\nClose-up evolution — 20 kpc\nThe closest view exposes the distinction between deterministic structure and the stochastic residual most clearly. The AREPO field and conditional mean show the large-scale state, while the diffusion samples add increasingly visible fine-scale variation.\nThis view must be interpreted carefully. Structure at these scales should not be read as a validated reconstruction of unresolved AREPO turbulence. It is generative extrapolation below the effective scale represented by the gridded training target.\n\n\n\n\\(\\lambda_{\\mathrm{Edd}}=0.02\\) — interpolation\nVideo\n\n\n\n\\(\\lambda_{\\mathrm{Edd}}=0.2\\) — extrapolation\nVideo\n\n\n\nThe manuscript is deliberately cautious about this component. Visually plausible texture is not sufficient evidence of correct physics. The generated residual is therefore tested in Fourier space.\n\n\n\n\n\n\nFigure 9: Power-spectrum audit for density, pressure and internal energy. The diffusion residual restores some intermediate-scale power but over-adds power near the grid Nyquist; a one-sided spectral cap reduces but does not eliminate that excess.\n\n\n\nThe diffusion-augmented prediction recovers useful intermediate-scale power, particularly for density, but the raw residual creates excess high-wavenumber power. After spectral capping, the remaining high-\\(k\\) excess is still approximately +0.24 to +1.17 dex across the three thermodynamic channels and both held-out ratios.\nSub-native-grid structure should therefore be interpreted as generative extrapolation, not as a validated reconstruction of unresolved AREPO turbulence. The diffusion ensemble spread is likewise the spread of the sampler, not a turbulence-uncertainty estimate."
+  },
+  {
+    "objectID": "projects/pecno/index.html#what-pecno-means-by-a-simulation-digital-twin",
+    "href": "projects/pecno/index.html#what-pecno-means-by-a-simulation-digital-twin",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "What PeCNO means by a simulation digital twin",
+    "text": "What PeCNO means by a simulation digital twin\nThe manuscript uses digital twin in a restricted operational sense.\nPeCNO provides a rapidly evaluated estimate of the simulated state. Occasional reference observations can then act as a synchronisation channel through which uncertainty is recalibrated online.\nIt is not yet a closed-loop autonomous system that decides which new AREPO simulations to launch. The current contribution is the surrogate-and-synchronisation component that such a system could use.\nThis distinction is useful because it separates three questions that are often conflated:\n\nCan the surrogate approximate the physical state?\nCan selected physical relationships be enforced exactly in the representation being used?\nCan the uncertainty statement remain valid as the deployment distribution evolves?\n\nThe experiments show that these questions can have very different answers for the same model."
+  },
+  {
+    "objectID": "projects/pecno/index.html#what-this-work-has-taught-me",
+    "href": "projects/pecno/index.html#what-this-work-has-taught-me",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "What this work has taught me",
+    "text": "What this work has taught me\nSeveral lessons extend beyond AGN jets.\nA physics-aware neural architecture is not automatically physically correct; if a relation matters, it can be valuable to distinguish soft encouragement from hard enforcement.\nA high spatial correlation does not imply a low physical error: the extrapolated pressure field is a clear example of a well-correlated but strongly biased prediction.\nA nominal uncertainty level measured on training-like data is not evidence that the same interval remains calibrated at a new physical parameter value.\nDistribution shift is not necessarily monotonic in distance from the training set. The extrapolation ratio is not uniformly harder than the interpolation ratio.\nOnline calibration can remain meaningful under temporal non-stationarity, but the guarantee must be stated at the resolution and along the sequence on which feedback is actually observed.\nGenerated high-resolution structure should be validated spectrally rather than accepted because it looks convincing.\nFinally, discovering what not to do is equally scientifically significant."
+  },
+  {
+    "objectID": "projects/pecno/index.html#why-this-matters-beyond-agn-jets",
+    "href": "projects/pecno/index.html#why-this-matters-beyond-agn-jets",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "Why this matters beyond AGN jets",
+    "text": "Why this matters beyond AGN jets\nThe statistical result is not specific to astrophysics. The same problem arises whenever a surrogate for a parameterised physical model is calibrated in one region of parameter space and then deployed somewhere else.\nThat includes cosmological simulation, fusion and plasma modelling, computational fluid dynamics, climate and environmental modelling, engineering digital twins and other settings in which full-order simulations are too expensive to run densely.\nThe broader question is therefore:\n\nHow can a scientific surrogate remain useful when the physical regime evolves, the reference model is expensive, and the uncertainty model itself may go out of calibration?\n\nPeCNO treats prediction, physical consistency and uncertainty calibration as related but distinct scientific problems — and makes the failure modes visible rather than hiding them behind a single headline accuracy score."
+  },
+  {
+    "objectID": "projects/pecno/index.html#references",
+    "href": "projects/pecno/index.html#references",
+    "title": "PeCNO: Physics-Enforced Continuous Neural Operator",
+    "section": "References",
+    "text": "References\n\n\nBourne, Martin A, and Debora Sijacki. 2017. “AGN Jet Feedback on a Moving Mesh: Cocoon Inflation, Gas Flows and Turbulence.” Monthly Notices of the Royal Astronomical Society 472 (4): 4707–35.\n\n\nBourne, Martin A, and Hsiang-Yi Karen Yang. 2023. “Recent Progress in Modeling the Macro-and Micro-Physics of Radio Jet Feedback in Galaxy Clusters.” Galaxies 11 (3): 73.\n\n\nGibbs, Isaac, and Emmanuel Candes. 2021. “Adaptive Conformal Inference Under Distribution Shift.” Advances in Neural Information Processing Systems 34: 1660–72.\n\n\nHo, Jonathan, Ajay Jain, and Pieter Abbeel. 2020. “Denoising Diffusion Probabilistic Models.” Advances in Neural Information Processing Systems 33: 6840–51.\n\n\nPerez, Ethan, Florian Strub, Harm De Vries, Vincent Dumoulin, and Aaron Courville. 2018. “Film: Visual Reasoning with a General Conditioning Layer.” Proceedings of the AAAI Conference on Artificial Intelligence 32.\n\n\nRahimi, Ali, and Benjamin Recht. 2007. “Random Features for Large-Scale Kernel Machines.” Advances in Neural Information Processing Systems 20.\n\n\nRomano, Yaniv, Evan Patterson, and Emmanuel Candes. 2019. “Conformalized Quantile Regression.” Advances in Neural Information Processing Systems 32.\n\n\nSitzmann, Vincent, Julien Martel, Alexander Bergman, David Lindell, and Gordon Wetzstein. 2020. “Implicit Neural Representations with Periodic Activation Functions.” Advances in Neural Information Processing Systems 33: 7462–73.\n\n\nVovk, Vladimir, Alexander Gammerman, and Glenn Shafer. 2005. Algorithmic Learning in a Random World. Springer."
+  },
+  {
+    "objectID": "projects/abbda/index.html",
+    "href": "projects/abbda/index.html",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "",
+    "text": "Modern monitoring systems can produce far more data than can be inspected continuously. A data centre may contain thousands of racks, a scientific instrument may expose thousands of channels, and a large network may generate telemetry faster than a monitoring system can process it at full resolution.\nThis creates a problem that is easy to state but surprisingly difficult to solve:\nMy work on ABBDA studies this problem as quickest change detection under a hard sensing budget. At every round there are \\(N\\) data streams, but the monitor is allowed to observe exactly \\(B&lt;N\\) of them. The system must decide which \\(B\\) streams to inspect, detect a persistent change quickly, and identify the stream responsible without relaxing the observation budget.\nThe central idea is that change detection and information acquisition should be treated as two linked decisions. A detector decides whether enough evidence exists to raise an alarm. An acquisition policy decides where to collect the next evidence.\nflowchart LR\n    A[Exactly B observation slots] --&gt; B[Score all N streams]\n    B --&gt; C[Convert scores to soft inclusion probabilities]\n    C --&gt; D[Sample an exact B-stream subset]\n    D --&gt; E[Observe selected streams]\n    E --&gt; F[Update CuSum and acquisition state]\n    F --&gt; G{Alarm?}\n    G -- No --&gt; A\n    G -- Yes --&gt; H[Report change and source]\nThis distinction is important. ABBDA does not obtain its gains by changing the stopping detector for each method. In the manuscript experiments, the policies share the same frozen per-stream CuSum detector. The acquisition rule changes where the limited measurements are spent."
+  },
+  {
+    "objectID": "projects/abbda/index.html#why-this-is-harder-than-ordinary-change-detection",
+    "href": "projects/abbda/index.html#why-this-is-harder-than-ordinary-change-detection",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "Why this is harder than ordinary change detection",
+    "text": "Why this is harder than ordinary change detection\nClassical quickest change detection assumes that the observations needed by the detector are available. CuSum, for example, accumulates evidence that a stream has moved from a nominal distribution to a changed distribution (Page 1954).\nIn a very large monitoring problem, however, most streams may be hidden at each round. Before the detector can confirm a change, the system may first have to discover where the change is occurring.\nThat creates a two-stage cost:\n\nsearch: spend enough observations across the system to encounter the changed stream;\nconfirmation: once evidence begins to accumulate, concentrate enough observations on that stream to cross the alarm boundary.\n\nThe sensing budget makes the first cost unavoidable. If only \\(B\\) out of \\(N\\) streams can be observed, there is no policy that can instantly know which unseen stream has changed."
+  },
+  {
+    "objectID": "projects/abbda/index.html#the-common-detector-frozen-cusum",
+    "href": "projects/abbda/index.html#the-common-detector-frozen-cusum",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "The common detector: frozen CuSum",
+    "text": "The common detector: frozen CuSum\nFor stream \\(i\\), let \\(S_{t,i}\\) denote its CuSum state. When the stream is observed, ABBDA updates that state from its new evidence. When the stream is not observed, the state is frozen:\n\\[\nS_{t,i}=\n\\begin{cases}\n\\max\\{0,S_{t-1,i}+\\ell_i(X_{t,i})\\}, & i\\in I_t,\\\\\nS_{t-1,i}, & i\\notin I_t.\n\\end{cases}\n\\]\nHere \\(I_t\\) is the subset selected at round \\(t\\), and \\(\\ell_i(X_{t,i})\\) is a local log-likelihood or working evidence score.\nFreezing matters conceptually. An unobserved stream has provided no new information, so its detector state should neither increase nor decay simply because the monitoring system looked elsewhere.\nThe alarm rule is then common across policies:\n\\[\n\\tau_h=\\inf\\left\\{t\\ge 1:\\max_i S_{t,i}\\ge h\\right\\}.\n\\]\nThe stream with the largest detector state at the stopping time is reported as the source. Because the detector is held fixed, the experiments can ask a cleaner question: did a better sensing policy use the same observation budget more effectively?"
+  },
+  {
+    "objectID": "projects/abbda/index.html#the-hard-budget-really-is-hard",
+    "href": "projects/abbda/index.html#the-hard-budget-really-is-hard",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "The hard budget really is hard",
+    "text": "The hard budget really is hard\nABBDA requires\n\\[\n|I_t|=B\n\\]\non every realised round. This is stronger than satisfying the budget only on average.\nA vector of inclusion probabilities is therefore not sufficient by itself. Independent Bernoulli draws could select too many or too few streams. Deterministic top-\\(B\\) selection would satisfy the budget, but can permanently lock the monitor onto the wrong streams after early noise.\nABBDA instead builds a vector of marginal inclusion probabilities whose entries sum to \\(B\\), then uses fixed-size probability-proportional-to-size sampling so that exactly \\(B\\) distinct streams are selected while the intended marginals are preserved. The implementation uses random-start systematic sampling following Madow’s fixed-size construction (Madow 1949).\nThis separates two ideas:\nsoft allocation: how strongly should each stream be prioritised?\nhard execution: which exact set of \\(B\\) streams should be observed now?"
+  },
+  {
+    "objectID": "projects/abbda/index.html#entropic-abbda-persistent-evidence-plus-guaranteed-exploration",
+    "href": "projects/abbda/index.html#entropic-abbda-persistent-evidence-plus-guaranteed-exploration",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "Entropic ABBDA: persistent evidence plus guaranteed exploration",
+    "text": "Entropic ABBDA: persistent evidence plus guaranteed exploration\nThe first policy, Entropic ABBDA, gives each stream an acquisition score based on two kinds of information:\n\nits current CuSum state, which measures proximity to the alarm boundary;\na slower evidence state that remembers repeated positive evidence over time.\n\nA simplified view of the acquisition score is\n\\[\nA^{\\mathrm{ent}}_{t,i}=E_{t-1,i}+\\beta S_{t-1,i},\n\\]\nwhere \\(E_{t-1,i}\\) is persistent evidence and \\(S_{t-1,i}\\) is the detector state.\nThese scores are converted to feasible inclusion probabilities through a capped entropy-regularised optimisation. The resulting marginals have the form\n\\[\nq_{t,i}=\\min\\left\\{1,\\exp(\\eta_A A^{\\mathrm{ent}}_{t,i}-\\lambda_t)\\right\\},\n\\qquad \\sum_i q_{t,i}=B.\n\\]\nThe cap at one is essential because these are inclusion probabilities for a multiple-play decision, not ordinary softmax weights that sum to one.\nABBDA then mixes this adaptive allocation with a uniform exploration component:\n\\[\np_t=(1-\\epsilon)q_t+\\epsilon\\frac{B}{N}\\mathbf 1.\n\\]\nTherefore every stream retains a non-zero chance of being observed:\n\\[\np_{t,i}\\ge \\epsilon B/N.\n\\]\nThis floor is more than a practical safeguard. It is what prevents permanent starvation and supports an explicit coverage guarantee."
+  },
+  {
+    "objectID": "projects/abbda/index.html#pgfpi-abbda-is-the-evidence-actually-progressing",
+    "href": "projects/abbda/index.html#pgfpi-abbda-is-the-evidence-actually-progressing",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "PG–FPI ABBDA: is the evidence actually progressing?",
+    "text": "PG–FPI ABBDA: is the evidence actually progressing?\nEntropic ABBDA asks how much evidence has accumulated. PG–FPI ABBDA adds another question:\n\nDoes the recent trajectory of this stream look as though it is making sustained progress towards the alarm boundary?\n\nTwo streams can have the same current CuSum value for very different reasons. One may have built evidence steadily over several observations. Another may have reached the same value because of one unusually large transient spike.\nPG–FPI tracks the increments within the current positive CuSum run and builds a finite-time first-passage score: an approximation to the probability that the stream will reach the alarm boundary within a future horizon if its current behaviour persists.\nThe first-passage component is based on the Brownian crossing approximation\n\\[\n\\mathcal Q(\\mu,v,d,L)=\n\\Phi\\!\\left(\\frac{\\mu L-d}{\\sqrt{vL}}\\right)\n+\\exp\\!\\left(\\frac{2\\mu d}{v}\\right)\n\\Phi\\!\\left(-\\frac{\\mu L+d}{\\sqrt{vL}}\\right),\n\\]\nwhere \\(d\\) is distance to the boundary, \\(\\mu\\) is an estimated drift, \\(v\\) a variance rate and \\(L\\) a look-ahead horizon.\nPG–FPI uses both a pessimistic and an optimistic version of this score. The pessimistic term activates only after repeated observations support positive drift. The optimistic term preserves sensitivity while the trajectory is still uncertain, but is gated down once stronger persistent evidence develops.\nThe resulting score augments the Entropic ABBDA score rather than replacing the common detector. This is a key scientific distinction: the first-passage calculation changes where the monitor looks, not what constitutes an alarm."
+  },
+  {
+    "objectID": "projects/abbda/index.html#what-is-actually-proved",
+    "href": "projects/abbda/index.html#what-is-actually-proved",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "What is actually proved",
+    "text": "What is actually proved\nThe theoretical analysis is deliberately separated from the simulation evidence.\nFirst, there is an unavoidable discovery cost. Before any informative observation from the affected stream has been seen, a hard \\(B\\)-of-\\(N\\) sensing budget imposes a worst-case search cost of order\n\\[\n\\Omega(N/B).\n\\]\nThis formalises the intuitive fact that a monitor cannot identify an unseen change for free.\nSecond, both ABBDA variants satisfy the exact resource constraint and retain a geometric coverage mechanism through the exploration floor. No stream can be assigned zero marginal probability indefinitely.\nThird, under positive bounded post-change drift assumptions, the shared detector plus ABBDA’s coverage floor gives a conservative crossing-delay envelope of the form\n\\[\nO\\!\\left(\\frac{Nh}{\\epsilon B\\mu}\\right),\n\\]\nwhere \\(h\\) is the alarm threshold and \\(\\mu\\) characterises post-change evidence.\nThe refined theory then separates the cost of finding and separating the affected stream from the cost of collecting enough post-change evidence to confirm it. When the learned acquisition score develops a sufficiently large gap in favour of the changed stream, the effective observation rate increases and the confirmation phase can shorten accordingly.\nThe PG–FPI first-passage score can help create that separation, but its plug-in drift bounds are not claimed to be time-uniform confidence sequences. Likewise, the paper does not claim full Lorden optimality or universal dominance over all competing sensing rules.\nThat boundary matters to me. A theoretical mechanism should be described in terms of what has actually been proved, not promoted beyond its assumptions."
+  },
+  {
+    "objectID": "projects/abbda/index.html#main-experiment-thermal-runaway-monitoring-in-a-data-centre",
+    "href": "projects/abbda/index.html#main-experiment-thermal-runaway-monitoring-in-a-data-centre",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "Main experiment: thermal-runaway monitoring in a data centre",
+    "text": "Main experiment: thermal-runaway monitoring in a data centre\nThe main controlled experiment models \\(N=128\\) data-centre racks arranged across eight cold aisles. The monitor can inspect exactly \\(B=8\\) racks per minute: only 6.25% of the system at each round.\nThree persistent fault regimes are simulated:\n\nD1: valve failure — an abrupt persistent thermal residual shift;\nD2: heat-exchanger fouling — a gradual fault whose early evidence is weak;\nD3: workload interference — a persistent target fault surrounded by many short-lived non-fault transients.\n\nEvery acquisition policy uses the same frozen CuSum detector. Thresholds are calibrated separately under null data because adaptive observation changes the null distribution of detector paths. The locked evaluation then uses 500 paired episodes in each regime so that competing methods see the same latent fault realisation.\n\n\n\n\n\n\nFigure 1: Data-centre benchmark: correct isolation, restricted loss and the fraction of post-change sensing allocated to the faulty rack.\n\n\n\nAcross the 1,500 paired episodes, the manuscript reports that Entropic ABBDA reduces restricted loss by 11.68 minutes relative to Batch PA–UCB, while PG–FPI reduces it by 13.17 minutes. Correct isolation improves by 3.13 and 3.87 percentage points, respectively.\nThe allocation behaviour helps explain those differences. Entropic ABBDA directs 8.75 percentage points more post-change sensing to the faulty rack than Batch PA–UCB; PG–FPI directs 11.13 points more.\nThe gradual D2 regime is particularly informative because early evidence is weak. D3 is also important because it tests whether the policy can distinguish persistent evidence from transient high-amplitude distractions."
+  },
+  {
+    "objectID": "projects/abbda/index.html#the-budget-frontier-when-adaptive-sensing-helps-and-when-it-does-not",
+    "href": "projects/abbda/index.html#the-budget-frontier-when-adaptive-sensing-helps-and-when-it-does-not",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "The budget frontier: when adaptive sensing helps, and when it does not",
+    "text": "The budget frontier: when adaptive sensing helps, and when it does not\nA useful method should not be judged only at one convenient sensing budget. The manuscript therefore repeats the main experiment for\n\\[\nB\\in\\{2,4,8,16,32,64\\}\n\\]\nat fixed \\(N=128\\).\n\n\n\n\n\n\nFigure 2: Restricted loss as the number of available observations changes.\n\n\n\nThe result is a genuine regime split rather than a universal ranking.\nAt the extreme \\(B=2\\) budget, both ABBDA variants perform worse than Batch PA–UCB. At \\(B=4\\) and \\(B=8\\), both ABBDA variants improve on it. PG–FPI also improves at \\(B=16\\), both methods improve at \\(B=32\\), and by \\(B=64\\) the differences become much smaller. A strong Greedy CuSum rule is competitive and often has the lowest finite-simulation loss.\nThe useful conclusion is therefore narrower and more informative:\n\nABBDA is most useful when sensing is scarce enough that allocation matters, but not so scarce that the learned acquisition score receives too little evidence to become reliable.\n\nThat is exactly the kind of operating boundary I want this work to expose."
+  },
+  {
+    "objectID": "projects/abbda/index.html#why-does-it-work-a-mechanism-audit",
+    "href": "projects/abbda/index.html#why-does-it-work-a-mechanism-audit",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "Why does it work? A mechanism audit",
+    "text": "Why does it work? A mechanism audit\nEnd-to-end performance alone does not reveal why an adaptive policy behaves differently. The manuscript therefore instruments the \\(B=8\\) experiments and decomposes the outcome into the time needed to reach the affected stream and the time needed after that first useful observation.\n\n\n\n\n\n\nFigure 3: Mechanism audit separating discovery from post-hit confirmation and showing how PG–FPI allocation changes when the theorem-scale score-gap condition becomes active.\n\n\n\nThis exposes an important trade-off. Greedy CuSum can concentrate very strongly once it locks onto a promising stream, but can take longer to reach the correct target. PG–FPI reaches the target sooner in the audited setting while still concentrating its later observations. Its correct-isolation point estimate is also the strongest among the causal policies in the mechanism table.\nThe audit additionally checks whether the affected-stream inclusion probability changes when the score-separation condition appearing in the theory is active. This connects the mathematical mechanism to an observable property of the implemented policy rather than treating the theorem and the experiment as unrelated parts of the paper."
+  },
+  {
+    "objectID": "projects/abbda/index.html#cross-domain-stress-tests",
+    "href": "projects/abbda/index.html#cross-domain-stress-tests",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "Cross-domain stress tests",
+    "text": "Cross-domain stress tests\nThe next question is whether the same acquisition principle survives outside the 128-rack simulator.\nThe manuscript tests three larger controlled settings:\n\nA1: 1,000 streams, 25 observations per round, one persistent mean shift;\nA2: 1,000 heavy-tailed streams with transient decoys and one persistent target;\nA3: a 2,160-stream emulator motivated by the ALICE Transition Radiation Detector at CERN.\n\n\n\n\n\n\n\nFigure 4: Cross-domain stress tests showing censored detection delay and the extent to which each method concentrates observations on the affected stream.\n\n\n\nA1 is a clean discovery problem. A2 is more closely aligned with PG–FPI’s design because isolated high-amplitude events should not be enough to trigger sustained commitment. A3 tests a gradual structured fault in a much larger monitoring problem.\nFor the ALICE-inspired experiment, the model uses 540 nominal chamber positions and four synthetic control summaries per position, giving \\(N=2160\\) streams. The injected fault is a gradual gain drift in an anode-current summary. The experiment is a deterministic emulator calibrated to publicly documented detector behaviour; it does not use measured CERN DCS traces.\nAcross A1–A3, the manuscript reports that every paired PG–FPI-minus-Batch-PA–UCB delay interval excludes zero. PG–FPI does not, however, consistently improve on Entropic ABBDA. In the ALICE emulator, Entropic ABBDA has the better delay point estimate and one additional correct isolation, while the two ABBDA variants are not cleanly separated statistically.\nAgain, the point is not to manufacture universal dominance. The evidence supports adaptive allocation as a useful mechanism across several controlled settings, while also showing that the extra PG–FPI machinery is most valuable in particular regimes rather than everywhere."
+  },
+  {
+    "objectID": "projects/abbda/index.html#computational-scalability",
+    "href": "projects/abbda/index.html#computational-scalability",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "Computational scalability",
+    "text": "Computational scalability\nAn adaptive sensing rule is only useful in practice if its decision loop remains tractable as the number of streams grows. The manuscript therefore includes a single-thread scaling benchmark at a fixed sensing fraction of \\(B/N=6.25\\%\\).\n\n\n\n\n\n\nFigure 5: Single-thread scalability of the full policy loop and of the acquisition step alone as the number of streams increases.\n\n\n\nThe figure shows a clear computational ordering. Uniform CuSum is cheapest because it applies the shared detector with minimal acquisition logic. Batch PA–UCB adds policy overhead but remains relatively light. Entropic ABBDA is more expensive because it scores every stream, enforces feasible marginals and performs exact-budget fixed-size sampling. PG–FPI ABBDA is the most computationally demanding because it augments that loop with first-passage calculations.\nThat does not undermine the scientific result; it simply makes the trade-off explicit. ABBDA is buying better use of scarce observations at the cost of heavier acquisition logic. The important operational point is that the complete loop and the acquisition step both scale smoothly over several orders of magnitude rather than showing an abrupt failure mode as \\(N\\) grows."
+  },
+  {
+    "objectID": "projects/abbda/index.html#the-hidden-stream-scaling-question",
+    "href": "projects/abbda/index.html#the-hidden-stream-scaling-question",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "The hidden-stream scaling question",
+    "text": "The hidden-stream scaling question\nThe theory predicts that before the affected stream has produced any observable evidence, discovery should inherit an \\(N/B\\) dependence from the sensing budget.\nThe manuscript includes an explicit hidden-source discovery audit to examine that scaling experimentally.\n\n\n\n\n\n\nFigure 6: Hidden-source discovery scaling before any change evidence is observable.\n\n\n\nI consider this diagnostic useful because it tests a structural limitation of the problem itself, not just the performance of a particular implementation. When only a fixed fraction of a very large system can be inspected, there is an irreducible cost to finding a previously hidden source of change."
+  },
+  {
+    "objectID": "projects/abbda/index.html#what-abbda-is-and-what-it-is-not",
+    "href": "projects/abbda/index.html#what-abbda-is-and-what-it-is-not",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "What ABBDA is — and what it is not",
+    "text": "What ABBDA is — and what it is not\nThe current work grew out of my PhD research on Adversarial Thresholding Semi-Bandits (Bower 2020). The name ABBDA reflects that lineage: adaptive allocation of a limited observation budget under partial feedback.\nThe objective in this manuscript is different. The earlier work studied threshold-deviation decisions in a semi-bandit setting. The present problem is distributional quickest change detection. Its outputs are alarm time, source isolation, false-alarm behaviour and sensing allocation rather than a transfer of the earlier regret objective.\nIt is also important not to confuse several different claims:\nExact-budget guarantee: every realised round uses exactly \\(B\\) observation slots.\nCoverage guarantee: the exploration floor prevents a stream from being assigned zero observation probability indefinitely.\nConditional detection bounds: finite-time delay bounds require explicit statistical assumptions about post-change evidence and, for the stronger additive results, additional conditions.\nEmpirical calibration: false-alarm operating points in the correlated simulators are established through separate null simulation rather than asserted from a misspecified parametric model.\nSimulation evidence: the data-centre and ALICE studies establish performance on controlled simulators and emulators. They are not production deployment results."
+  },
+  {
+    "objectID": "projects/abbda/index.html#why-this-matters-beyond-change-detection",
+    "href": "projects/abbda/index.html#why-this-matters-beyond-change-detection",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "Why this matters beyond change detection",
+    "text": "Why this matters beyond change detection\nThe broader problem is not specific to temperature sensors or particle detectors. It appears whenever information itself is a scarce resource.\nA cyber-defence system may not be able to inspect every host at full fidelity. An industrial plant may have thousands of telemetry signals but limited diagnostic bandwidth. A scientific experiment may expose more channels than can be read or processed continuously. A distributed system may need to decide which nodes deserve expensive measurements. A future autonomous laboratory may have to decide not only what it believes, but which observation is worth paying for next.\nThat connects ABBDA to a recurring theme across my research:\n\nHow should an intelligent system allocate attention when it cannot observe everything, uncertainty matters, and the act of acquiring information has a real cost?\n\nABBDA treats monitoring as an active decision problem. The aim is not merely to detect change after the relevant data happen to arrive, but to learn where to look so that a constrained monitoring system spends its scarce observations where they are most informative while never losing sight of the rest of the system."
+  },
+  {
+    "objectID": "projects/abbda/index.html#references",
+    "href": "projects/abbda/index.html#references",
+    "title": "ABBDA: Learning Where to Look",
+    "section": "References",
+    "text": "References\n\n\nBower, Craig S. 2020. Adversarial Thresholding Semi-Bandits. CERN-THESIS-2020-373. CERN. https://cds.cern.ch/record/2790271/.\n\n\nMadow, William G. 1949. “On the Theory of Systematic Sampling, II.” The Annals of Mathematical Statistics 20 (3): 333–54.\n\n\nPage, E. S. 1954. “Continuous Inspection Schemes.” Biometrika 41 (1/2): 100–115."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "\n Dr. Craig Bower\n",
+    "section": "",
+    "text": "A recurring question across my work is: how can an intelligent system learn reliably when observations are sparse, uncertainty matters and acquiring new information is costly?"
+  },
+  {
+    "objectID": "index.html#selected-research",
+    "href": "index.html#selected-research",
+    "title": "\n Dr. Craig Bower\n",
+    "section": "Selected research",
+    "text": "Selected research\n\n\nHyperFlux\nA self-learning scientific digital twin combining ecosystem physics, graph neural networks, uncertainty-aware prediction and sequential local adaptation.\nThemes: Scientific ML · Digital twins · GNNs · Online adaptation\n\n\nVariable-Interaction Graph Networks (VIGNet)\nLearning coupled physical systems from the interactions that actually exist. VIGNet builds neural-operator connectivity directly from PDE variable dependencies, with provable results for approximation, required depth, generalisation and graph mis-specification.\nThemes: Scientific ML · Coupled PDEs · GNNs\n\n\nABBDA\nEfficient monitoring and change detection in massive data streams when observing everything is prohibitively expensive.\nThemes: Bandits · Sequential decisions · Change detection · Partial information\n\n\nAdaptive Scientific Campaigns\nA research programme asking how expensive simulations and experiments should be selected to maximise defensible scientific knowledge per unit of cost.\nThemes: Autonomous science · HPC · Uncertainty · Adaptive experimentation\n\nPortfolio case study in preparation.\n\n\n\nPhysics-Enforced Continuous Neural Operator\nA continuous neural-field surrogate for AGN jet simulations combining hard physics projection, adaptive conformal uncertainty calibration and controlled generative recovery of smaller spatial scales.\nThemes: Scientific ML · Neural fields · Uncertainty quantification · Physics enforcement\n\n\nExplanatory Computation\nThemes: Explainable AI · Symbolic Regression\n\nPortfolio case study in preparation.\n\n\n\nBandit Neural Architecture Search\nThemes: Scientific Digital Twins · Multi-armed Bandits · Neural Architecture Search\n\nPortfolio case study in preparation.\n\n\n\nAdversarial Thresholding Semi-Bandits\nThemes: Non-stochasticity · Thresholding Bandits · ALICE Transition Radiation Detector Control\n\nPortfolio case study in preparation."
+  },
+  {
+    "objectID": "index.html#research-direction",
+    "href": "index.html#research-direction",
+    "title": "\n Dr. Craig Bower\n",
+    "section": "Research direction",
+    "text": "Research direction\nMy work sits at the intersection of scientific machine learning, sequential decision-making, uncertainty quantification and autonomous scientific discovery. The applications vary, but the methodological problem is often the same: we need to make useful predictions or decisions before we have complete information."
+  },
+  {
+    "objectID": "index.html#latest-writing",
+    "href": "index.html#latest-writing",
+    "title": "\n Dr. Craig Bower\n",
+    "section": "Latest writing",
+    "text": "Latest writing\n\nHyperFlux: Building a Scientific Digital Twin That Learns\nVariable-Interaction Graph Networks: learning the interactions that actually exist\nABBDA: Learning Where to Look\nPeCNO: Physics-Enforced Continuous Neural Operator"
+  },
+  {
+    "objectID": "ABBDA_SITE_CHANGES.html",
+    "href": "ABBDA_SITE_CHANGES.html",
+    "title": "ABBDA website integration changes",
+    "section": "",
+    "text": "This patch deliberately does not overwrite your current homepage because it has been edited since the original starter ZIP.\n\n\nCopy:\nprojects/abbda/index.qmd\nand its figures/ directory into the website repository.\n\n\n\nAppend the contents of references_abbda_append.bib to the site’s existing root references.bib.\n\n\n\nIn the current index.qmd, change the ABBDA heading from plain text to:\n### [ABBDA](projects/abbda/index.qmd)\nKeep the current summary text:\n\nEfficient monitoring and change detection in massive data streams when observing everything is prohibitively expensive.\n\nRemove the old:\n&lt;div class=\"status\"&gt;Portfolio case study in preparation.&lt;/div&gt;\n\n\n\nReplace the ABBDA placeholder with:\n## ABBDA\n\n[Read the full case study →](projects/abbda/index.qmd)\n\nAdaptive sensing for quickest change detection under hard observation budgets. ABBDA learns how to allocate a fixed number of observations across massive data streams while preserving coverage, detecting persistent change and identifying its source.\n\n\n\nUnder ## Latest writing on the homepage, add:\n- [ABBDA: Learning Where to Look](projects/abbda/index.qmd)\n\n\n\nFrom the repository root:\nquarto preview\nCheck the ABBDA page at the local preview URL, verify figure rendering, then run:\nquarto render"
+  },
+  {
+    "objectID": "ABBDA_SITE_CHANGES.html#add-the-project-page",
+    "href": "ABBDA_SITE_CHANGES.html#add-the-project-page",
+    "title": "ABBDA website integration changes",
+    "section": "",
+    "text": "Copy:\nprojects/abbda/index.qmd\nand its figures/ directory into the website repository."
+  },
+  {
+    "objectID": "ABBDA_SITE_CHANGES.html#append-bibliography-entries",
+    "href": "ABBDA_SITE_CHANGES.html#append-bibliography-entries",
+    "title": "ABBDA website integration changes",
+    "section": "",
+    "text": "Append the contents of references_abbda_append.bib to the site’s existing root references.bib."
+  },
+  {
+    "objectID": "ABBDA_SITE_CHANGES.html#update-the-homepage-abbda-card",
+    "href": "ABBDA_SITE_CHANGES.html#update-the-homepage-abbda-card",
+    "title": "ABBDA website integration changes",
+    "section": "",
+    "text": "In the current index.qmd, change the ABBDA heading from plain text to:\n### [ABBDA](projects/abbda/index.qmd)\nKeep the current summary text:\n\nEfficient monitoring and change detection in massive data streams when observing everything is prohibitively expensive.\n\nRemove the old:\n&lt;div class=\"status\"&gt;Portfolio case study in preparation.&lt;/div&gt;"
+  },
+  {
+    "objectID": "ABBDA_SITE_CHANGES.html#update-projects.qmd",
+    "href": "ABBDA_SITE_CHANGES.html#update-projects.qmd",
+    "title": "ABBDA website integration changes",
+    "section": "",
+    "text": "Replace the ABBDA placeholder with:\n## ABBDA\n\n[Read the full case study →](projects/abbda/index.qmd)\n\nAdaptive sensing for quickest change detection under hard observation budgets. ABBDA learns how to allocate a fixed number of observations across massive data streams while preserving coverage, detecting persistent change and identifying its source."
+  },
+  {
+    "objectID": "ABBDA_SITE_CHANGES.html#optional-latest-writing-link",
+    "href": "ABBDA_SITE_CHANGES.html#optional-latest-writing-link",
+    "title": "ABBDA website integration changes",
+    "section": "",
+    "text": "Under ## Latest writing on the homepage, add:\n- [ABBDA: Learning Where to Look](projects/abbda/index.qmd)"
+  },
+  {
+    "objectID": "ABBDA_SITE_CHANGES.html#validate",
+    "href": "ABBDA_SITE_CHANGES.html#validate",
+    "title": "ABBDA website integration changes",
+    "section": "",
+    "text": "From the repository root:\nquarto preview\nCheck the ABBDA page at the local preview URL, verify figure rendering, then run:\nquarto render"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I am a mathematician and machine-learning researcher working on scientific AI, sequential decision-making and uncertainty-aware intelligent systems.\nMy research has spanned high-energy physics, scientific machine learning, digital twins, online change detection, environmental modelling and adaptive scientific computation. Across these areas, I am particularly interested in methods that have to operate with incomplete observations, expensive data and systems whose behaviour changes through time.\nA recurring aim in my work is to connect mathematical and algorithmic ideas with real scientific problems while remaining explicit about uncertainty, assumptions and what the available evidence does — and does not — support.\nThis portfolio is designed to explain that work to both specialist and non-specialist readers."
+  },
+  {
+    "objectID": "PECNO_SITE_CHANGES.html",
+    "href": "PECNO_SITE_CHANGES.html",
+    "title": "PeCNO website integration changes",
+    "section": "",
+    "text": "This patch is designed to add PeCNO as an additional project without overwriting the current homepage, because the live site may have evolved since the original starter ZIP.\n\n\nCopy the complete directory:\nprojects/pecno/\ninto the website repository.\n\n\n\nAppend the contents of:\nreferences_pecno_append.bib\nonto the existing root references.bib.\n\n\n\nAdd the following project card inside the existing .project-grid. A natural position is immediately after HyperFlux and before ABBDA:\n::: {.project-card}\n### [Physics-Enforced Continuous Neural Operator](projects/pecno/index.qmd)\n\nA continuous neural-field surrogate for AGN jet simulations combining hard physics projection, adaptive conformal uncertainty calibration and controlled generative recovery of smaller spatial scales.\n\n**Themes:** Scientific ML · Neural fields · Uncertainty quantification · Physics enforcement\n:::\nIf the site currently calls the project simply PeCNO, use:\n### [PeCNO](projects/pecno/index.qmd)\ninstead; the destination is unchanged.\n\n\n\nAdd:\n## Physics-Enforced Continuous Neural Operator (PeCNO)\n\n[Read the full case study →](projects/pecno/index.qmd)\n\nA continuous surrogate for idealised AGN jet simulations that maps space, time and Eddington ratio to hydrodynamic fields, enforces selected physical constraints after prediction, diagnoses conformal-calibration failure under parameter and temporal shift, and recalibrates uncertainty online using adaptive conformal inference.\nA sensible ordering is:\n\nHyperFlux\nPhysics-Enforced Continuous Neural Operator (PeCNO)\nABBDA\nAdaptive Scientific Campaigns\n\n\n\n\nUnder ## Latest writing on the homepage, add:\n- [PeCNO: Physics-Enforced Continuous Neural Operator](projects/pecno/index.qmd)\n\n\n\nThe current site links to a general Projects page from the navigation bar, so PeCNO can be exposed through the homepage and project index without adding another top-level nav item.\n\n\n\nFrom the repository root:\nquarto preview\nCheck:\n\nall eight PeCNO figures render;\nthe architecture figure is used as the page/social preview image;\nbibliography citations resolve;\nequations render correctly;\nthe homepage card points to projects/pecno/index.qmd;\nprojects.qmd includes PeCNO;\nABBDA and HyperFlux links remain unchanged.\n\nThen build the production site with:\nquarto render"
+  },
+  {
+    "objectID": "PECNO_SITE_CHANGES.html#add-the-project-page",
+    "href": "PECNO_SITE_CHANGES.html#add-the-project-page",
+    "title": "PeCNO website integration changes",
+    "section": "",
+    "text": "Copy the complete directory:\nprojects/pecno/\ninto the website repository."
+  },
+  {
+    "objectID": "PECNO_SITE_CHANGES.html#append-bibliography-entries",
+    "href": "PECNO_SITE_CHANGES.html#append-bibliography-entries",
+    "title": "PeCNO website integration changes",
+    "section": "",
+    "text": "Append the contents of:\nreferences_pecno_append.bib\nonto the existing root references.bib."
+  },
+  {
+    "objectID": "PECNO_SITE_CHANGES.html#add-pecno-to-the-homepage-project-grid",
+    "href": "PECNO_SITE_CHANGES.html#add-pecno-to-the-homepage-project-grid",
+    "title": "PeCNO website integration changes",
+    "section": "",
+    "text": "Add the following project card inside the existing .project-grid. A natural position is immediately after HyperFlux and before ABBDA:\n::: {.project-card}\n### [Physics-Enforced Continuous Neural Operator](projects/pecno/index.qmd)\n\nA continuous neural-field surrogate for AGN jet simulations combining hard physics projection, adaptive conformal uncertainty calibration and controlled generative recovery of smaller spatial scales.\n\n**Themes:** Scientific ML · Neural fields · Uncertainty quantification · Physics enforcement\n:::\nIf the site currently calls the project simply PeCNO, use:\n### [PeCNO](projects/pecno/index.qmd)\ninstead; the destination is unchanged."
+  },
+  {
+    "objectID": "PECNO_SITE_CHANGES.html#add-the-project-to-projects.qmd",
+    "href": "PECNO_SITE_CHANGES.html#add-the-project-to-projects.qmd",
+    "title": "PeCNO website integration changes",
+    "section": "",
+    "text": "Add:\n## Physics-Enforced Continuous Neural Operator (PeCNO)\n\n[Read the full case study →](projects/pecno/index.qmd)\n\nA continuous surrogate for idealised AGN jet simulations that maps space, time and Eddington ratio to hydrodynamic fields, enforces selected physical constraints after prediction, diagnoses conformal-calibration failure under parameter and temporal shift, and recalibrates uncertainty online using adaptive conformal inference.\nA sensible ordering is:\n\nHyperFlux\nPhysics-Enforced Continuous Neural Operator (PeCNO)\nABBDA\nAdaptive Scientific Campaigns"
+  },
+  {
+    "objectID": "PECNO_SITE_CHANGES.html#add-to-latest-writing",
+    "href": "PECNO_SITE_CHANGES.html#add-to-latest-writing",
+    "title": "PeCNO website integration changes",
+    "section": "",
+    "text": "Under ## Latest writing on the homepage, add:\n- [PeCNO: Physics-Enforced Continuous Neural Operator](projects/pecno/index.qmd)"
+  },
+  {
+    "objectID": "PECNO_SITE_CHANGES.html#no-navigation-bar-change-is-required",
+    "href": "PECNO_SITE_CHANGES.html#no-navigation-bar-change-is-required",
+    "title": "PeCNO website integration changes",
+    "section": "",
+    "text": "The current site links to a general Projects page from the navigation bar, so PeCNO can be exposed through the homepage and project index without adding another top-level nav item."
+  },
+  {
+    "objectID": "PECNO_SITE_CHANGES.html#validate-locally",
+    "href": "PECNO_SITE_CHANGES.html#validate-locally",
+    "title": "PeCNO website integration changes",
+    "section": "",
+    "text": "From the repository root:\nquarto preview\nCheck:\n\nall eight PeCNO figures render;\nthe architecture figure is used as the page/social preview image;\nbibliography citations resolve;\nequations render correctly;\nthe homepage card points to projects/pecno/index.qmd;\nprojects.qmd includes PeCNO;\nABBDA and HyperFlux links remain unchanged.\n\nThen build the production site with:\nquarto render"
+  },
+  {
+    "objectID": "projects/hyperflux/index.html",
+    "href": "projects/hyperflux/index.html",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "",
+    "text": "Agricultural peatlands present a difficult scientific and modelling problem. They can act as both sources and sinks of carbon dioxide, and that balance changes continually with temperature, sunlight, soil moisture, crop growth, season and land management.\nOne of the most useful measurements is net ecosystem exchange (NEE): the net movement of carbon dioxide between an ecosystem and the atmosphere. Flux towers can measure this directly, but they are expensive and sparse.\nThat creates a recurring problem in scientific machine learning:\nMy work on HyperFlux has focused on that problem. HyperFlux is being developed as a scientific digital twin for intensively managed lowland peat agriculture. Rather than producing one prediction and then remaining permanently fixed, the aim is to combine physical knowledge, machine learning and new observations so that the twin can adapt as conditions change."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#why-an-ordinary-machine-learning-model-is-not-enough",
+    "href": "projects/hyperflux/index.html#why-an-ordinary-machine-learning-model-is-not-enough",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "Why an ordinary machine-learning model is not enough",
+    "text": "Why an ordinary machine-learning model is not enough\nA conventional machine-learning model could take variables such as temperature, radiation and soil moisture and learn a mapping directly to carbon exchange. That can work when future conditions resemble the data on which the model was trained.\nScientific use creates harder requirements. We may want to understand why a prediction changed, ask what could happen under different conditions, forecast several days ahead, reason about physical processes that are not directly measured, or decide when a prediction should not be trusted.\nHyperFlux therefore combines a learned model with simplified representations of the physical processes that generate carbon exchange. This follows the broader physics-informed machine-learning principle of combining data with mechanistic or mathematical knowledge rather than treating them as competing alternatives (Karniadakis et al. 2021)."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#starting-with-the-carbon-balance",
+    "href": "projects/hyperflux/index.html#starting-with-the-carbon-balance",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "Starting with the carbon balance",
+    "text": "Starting with the carbon balance\nHyperFlux reasons explicitly about two important components of ecosystem carbon exchange.\nTotal ecosystem respiration (TER) represents carbon dioxide released through biological respiration. Temperature-response formulations, including Q10-style models, are well established in ecosystem and soil-respiration modelling (Lloyd and Taylor 1994).\nGross primary productivity (GPP) represents carbon uptake through photosynthesis. Light-response approaches are widely used to partition measured net ecosystem exchange into photosynthetic assimilation and ecosystem respiration while accounting for environmental effects (Lasslop et al. 2010).\n\n\n\n\n\n\nFigure 2: Conceptual origin of NEE as the balance between ecosystem respiration and photosynthetic carbon uptake.\n\n\n\nThe physics component is not intended to be a perfect mechanistic description of every ecological process. Its role is to provide the learning system with meaningful structure. The learned component can then represent residual behaviour that the simplified equations do not capture.\nIn other words:\n\nPhysics provides structure; machine learning provides flexibility."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#learning-physical-behaviour-from-observations",
+    "href": "projects/hyperflux/index.html#learning-physical-behaviour-from-observations",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "Learning physical behaviour from observations",
+    "text": "Learning physical behaviour from observations\nMany quantities we care about cannot simply be read from a sensor. Parameters describing respiration sensitivity, photosynthetic capacity or environmental response may be latent. We have to infer them from behaviour that we can observe.\nThis is an inverse problem: instead of starting with known physical parameters and calculating the resulting carbon exchange, we observe carbon exchange and ask which physical states or parameter values could plausibly have produced it.\nThere is an important limitation. Multiple parameter combinations can sometimes explain almost the same observed behaviour. This is an identifiability problem.\nA model-generated parameter value is therefore not automatically a measurement, and it may not be uniquely determined by the data. Scientific interpretability requires us to say what the observations genuinely constrain rather than presenting every inferred quantity as equally well established."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#why-represent-the-system-as-a-graph",
+    "href": "projects/hyperflux/index.html#why-represent-the-system-as-a-graph",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "Why represent the system as a graph?",
+    "text": "Why represent the system as a graph?\nEnvironmental systems consist of interacting processes. Temperature affects respiration. Radiation influences photosynthesis. Soil moisture can constrain biological activity. Crop state, soil carbon and weather interact rather than acting as unrelated features.\nHyperFlux therefore represents important environmental and physical variables as nodes in a variable-interaction graph.\n\n\n\n\n\n\nFigure 3: Why HyperFlux uses a graph: related environmental and physical quantities exchange information through graph message passing.\n\n\n\nA graph neural network lets information move between connected quantities through message passing. The general message-passing neural-network framework formalises this idea as learned exchange and aggregation of information over graph edges (Gilmer et al. 2017).\nThe purpose is not to make the model more complicated for its own sake. It is to encode the idea that the system consists of interacting processes and to let the learned representation exploit those interactions."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#regional-knowledge-and-local-memory",
+    "href": "projects/hyperflux/index.html#regional-knowledge-and-local-memory",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "Regional knowledge and local memory",
+    "text": "Regional knowledge and local memory\nOne of the central ideas behind HyperFlux is to separate two kinds of knowledge.\nThe regional model learns patterns that recur across multiple observed fields, crops and seasons: what fields broadly tend to do.\nA particular field can nevertheless behave differently from that regional expectation. HyperFlux therefore maintains a smaller local state that captures how the current field differs.\n\n\n\n\n\n\nFigure 4: Regional knowledge versus local memory. A regional model captures shared behaviour; new observations update a compact field-specific EKF state to produce a localised forecast.\n\n\n\nWhen a new flux-tower observation becomes available, that local state can be updated sequentially using an Extended Kalman Filter (EKF). The EKF is a classical state-estimation method for nonlinear systems that updates a current state estimate and its uncertainty using new observations (Welch and Bishop 2006).\nConceptually, the cycle is:\nregional prediction → new observation → prediction error → local-state update → revised prediction\nThis gives the digital twin a form of memory without requiring the entire neural network to be retrained whenever a new measurement arrives."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#what-self-learning-means-here",
+    "href": "projects/hyperflux/index.html#what-self-learning-means-here",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "What self-learning means here",
+    "text": "What self-learning means here\nThe phrase self-learning can easily become vague. In HyperFlux it has a specific operational meaning.\n\n\n\n\n\n\nFigure 5: Self-learning through time. HyperFlux predicts, assimilates a later observation, updates a compact field-specific state, and uses that state for the next forecast while leaving the regional network fixed.\n\n\n\nThe regional neural model can remain fixed while a compact field-specific state is updated as new evidence arrives. This distinction matters because online learning does not necessarily require continuous neural-network retraining.\nFor scientific forecasting, evaluation must also be causal. Information from tomorrow cannot be allowed to improve today’s forecast. HyperFlux therefore uses walk-forward reasoning in which each prediction is based only on information that would genuinely have been available at that point in time."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#quantifying-uncertainty",
+    "href": "projects/hyperflux/index.html#quantifying-uncertainty",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "Quantifying uncertainty",
+    "text": "Quantifying uncertainty\nA scientific prediction should not be presented as perfectly certain.\nHyperFlux therefore exposes uncertainty alongside its predictions. One component uses Monte-Carlo dropout: dropout is retained during repeated inference so that variation across stochastic forward passes can be used as an approximate representation of model uncertainty, following the Bayesian interpretation developed by Gal and Ghahramani (Gal and Ghahramani 2016).\nOther uncertainty arises from local state estimation and, in transfer settings, from how strongly another field supports the target field.\nThese distinctions matter because the useful question is not only “How uncertain is this prediction?” but also “Why is it uncertain?”"
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#counterfactual-questions",
+    "href": "projects/hyperflux/index.html#counterfactual-questions",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "Counterfactual questions",
+    "text": "Counterfactual questions\nA digital twin containing both learned behaviour and physical structure can be used to ask questions of the form:\nWhat might happen if conditions were different?\nFor example, we can alter an environmental driver and propagate the changed state through the same modelling pipeline. These experiments can help explore sensitivity to temperature, radiation, soil moisture or alternative future conditions.\nA counterfactual prediction is not automatically a causal conclusion. Its credibility still depends on whether the intervention is scientifically meaningful and whether the model adequately represents the mechanisms affected by the change."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#looking-into-future-conditions",
+    "href": "projects/hyperflux/index.html#looking-into-future-conditions",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "Looking into future conditions",
+    "text": "Looking into future conditions\nThe same modelling framework can be driven by future meteorological inputs. Shorter-term forecasts can use weather forecasts; longer-term scenario analysis can use climate projections.\nThis asks a fundamentally different question from ordinary interpolation:\n\nWhat might this system do under environmental conditions that have not yet occurred?\n\nThat is precisely where uncertainty and validation become especially important because the model may be moving further away from the conditions represented by its original observations."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#the-harder-problem-fields-without-flux-towers",
+    "href": "projects/hyperflux/index.html#the-harder-problem-fields-without-flux-towers",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "The harder problem: fields without flux towers",
+    "text": "The harder problem: fields without flux towers\nA field without a flux tower cannot genuinely self-learn from local NEE observations because those observations do not exist. This turns the problem from adaptation into transfer.\nWe have investigated whether information learned at instrumented fields can be transferred to a scientifically similar uninstrumented field.\n\n\n\n\n\n\nFigure 6: The no-tower analogue-transfer problem. Tower-observed fields may provide candidate analogues, but transfer should depend on scientific similarity, uncertainty and support, with fallback toward regional knowledge when evidence is weak.\n\n\n\nThe obvious idea is to identify a similar field and copy its behaviour. More rigorous experiments showed why that is too simple. Fields that appear similar geographically or environmentally do not necessarily have sufficiently similar carbon dynamics. Seasonal state matters as well: a midsummer crop should not automatically be matched to a donor represented by an end-of-season state.\nThe no-tower problem therefore remains an active research question, not a capability I currently present as solved."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#what-happens-when-the-model-is-wrong",
+    "href": "projects/hyperflux/index.html#what-happens-when-the-model-is-wrong",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "What happens when the model is wrong?",
+    "text": "What happens when the model is wrong?\nFor me, this is one of the most important questions in scientific AI.\nWhen a prediction is poor, reporting a larger error is only the start. We want to ask what may have caused it:\n\nWas the regional model inappropriate for this field?\nDid the local state fail to adapt quickly enough?\nWas a physical parameter weakly identified?\nWas the field operating outside conditions represented in training?\nWas uncertainty already signalling that the prediction should not be trusted?\nDid an apparently similar field turn out not to be a useful analogue?\n\nThese questions move the task from prediction toward scientific diagnosis."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#what-hyperflux-has-taught-me",
+    "href": "projects/hyperflux/index.html#what-hyperflux-has-taught-me",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "What HyperFlux has taught me",
+    "text": "What HyperFlux has taught me\nSeveral lessons extend well beyond peatland carbon modelling.\nFirst, adding physics to machine learning does not automatically make the resulting model physically correct.\nSecond, an inferred physical parameter is not the same thing as a directly measured quantity.\nThird, uncertainty should influence how strongly transferred information is trusted.\nFourth, online learning does not always require neural-network retraining.\nFifth, negative results are scientifically useful. A transfer method that fails under rigorous evaluation tells us something important about what the available information does not justify.\nFinally, scientific AI becomes more useful when a prediction comes with provenance: what information produced it, what assumptions were involved, what remains uncertain, and how the prediction changed when new evidence arrived."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#why-this-matters-beyond-peatlands",
+    "href": "projects/hyperflux/index.html#why-this-matters-beyond-peatlands",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "Why this matters beyond peatlands",
+    "text": "Why this matters beyond peatlands\nThe underlying problem occurs throughout science and industry.\nAn industrial process may have only a small number of sensors. A machine may behave differently from the population on which a model was trained. A digital twin may need to adapt as equipment ages. A scientific instrument may generate observations too slowly or expensively to retrain a large model continually. A model may need to combine mechanistic equations with data rather than choosing between physics and machine learning.\nThe broader question is therefore:\n\nHow do we build intelligent systems for complex physical processes when observations are sparse, physics is incomplete, conditions change and uncertainty matters?\n\nHyperFlux is one setting in which I have been investigating that question."
+  },
+  {
+    "objectID": "projects/hyperflux/index.html#references",
+    "href": "projects/hyperflux/index.html#references",
+    "title": "HyperFlux:Building a Scientific Digital Twin That Learns",
+    "section": "References",
+    "text": "References\n\n\nGal, Yarin, and Zoubin Ghahramani. 2016. “Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning.” Proceedings of the 33rd International Conference on Machine Learning, Proceedings of machine learning research, vol. 48: 1050–59.\n\n\nGilmer, Justin, Samuel S. Schoenholz, Patrick F. Riley, Oriol Vinyals, and George E. Dahl. 2017. “Neural Message Passing for Quantum Chemistry.” Proceedings of the 34th International Conference on Machine Learning, Proceedings of machine learning research, vol. 70: 1263–72.\n\n\nKarniadakis, George Em, Ioannis G. Kevrekidis, Lu Lu, Paris Perdikaris, Sifan Wang, and Liu Yang. 2021. “Physics-Informed Machine Learning.” Nature Reviews Physics 3: 422–40. https://doi.org/10.1038/s42254-021-00314-5.\n\n\nLasslop, G., M. Reichstein, D. Papale, et al. 2010. “Separation of Net Ecosystem Exchange into Assimilation and Respiration Using a Light Response Curve Approach: Critical Issues and Global Evaluation.” Global Change Biology 16 (1): 187–208. https://doi.org/10.1111/j.1365-2486.2009.02041.x.\n\n\nLloyd, J., and J. A. Taylor. 1994. “On the Temperature Dependence of Soil Respiration.” Functional Ecology 8 (3): 315–23. https://doi.org/10.2307/2389824.\n\n\nWelch, Greg, and Gary Bishop. 2006. An Introduction to the Kalman Filter. TR 95-041. University of North Carolina at Chapel Hill."
+  },
+  {
+    "objectID": "projects/vignet/index.html",
+    "href": "projects/vignet/index.html",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "",
+    "text": "Many physical systems contain several variables that evolve together. Temperature affects pressure. One chemical concentration activates another. Displacement changes velocity, velocity alters stress, and the resulting stress feeds back into motion.\nMost machine-learning models are told only that all of these variables exist. They are not told which variables can directly influence which others.\nOur work on Variable-Interaction Graph Networks (VIGNets) asks a different question:\nThe central idea is to construct a directed graph directly from the coupling structure of the governing equations. Each node is a physical variable. A directed edge means that the evolution equation for one variable genuinely depends on another. A neural operator then passes information only along those physically admissible edges.\nThis sounds like a simple architectural choice. The work goes much further. We prove when that graph is sufficient for universal approximation, when the network must be at least a certain depth, why unnecessarily deep networks can generalise worse, how graph sparsity influences statistical complexity, what happens when the graph is wrong, and how the results change when the training observations are temporally dependent rather than independent.\nThe experiments then test those claims on three coupled PDE systems."
+  },
+  {
+    "objectID": "projects/vignet/index.html#the-problem-coupled-equations-contain-structure",
+    "href": "projects/vignet/index.html#the-problem-coupled-equations-contain-structure",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "The problem: coupled equations contain structure",
+    "text": "The problem: coupled equations contain structure\nConsider a system of \\(N\\) evolving physical variables\n\\[\n\\partial_t u_i\n=\nF_i\\!\\left(\nu_1,\\ldots,u_N,\n\\nabla u_1,\\ldots,\\nabla^k u_N;\nx,t\n\\right),\n\\qquad i=1,\\ldots,N.\n\\]\nHere \\(u_i\\) is the \\(i\\)th physical field and \\(F_i\\) is its evolution law. The solution operator\n\\[\n\\mathcal H:\\mathcal X_{\\mathrm{obs}}\\to\\mathcal Y_{\\mathrm{target}}\n\\]\nmaps an observed initial state to the future solution of the coupled system.\nA conventional neural operator can learn this map directly. Fourier Neural Operators and DeepONets, for example, are powerful methods for learning maps between function spaces (Li et al. 2021; Lu et al. 2021). But a generic operator does not automatically know that some cross-variable dependencies are impossible.\nSuppose the equation for \\(u_4\\) depends on \\(u_2\\), and the equation for \\(u_2\\) depends on \\(u_1\\). Then \\(u_1\\) can affect \\(u_4\\) through the chain\n\\[\nu_1\\longrightarrow u_2\\longrightarrow u_4.\n\\]\nIf \\(u_3\\) never enters either equation, a fully connected model still allocates parameters to interactions involving \\(u_3\\). VIGNet instead builds the admissible interaction pattern into the architecture before learning begins.\nThis is a structural prior: a restriction on what the network is allowed to represent, derived from the governing physics."
+  },
+  {
+    "objectID": "projects/vignet/index.html#defining-the-variable-interaction-graph",
+    "href": "projects/vignet/index.html#defining-the-variable-interaction-graph",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Defining the Variable-Interaction Graph",
+    "text": "Defining the Variable-Interaction Graph\nThe graph is not defined informally. It is derived from the functional derivative of the PDE evolution operator.\nLet\n\\[\n\\mathcal G^*=(V,E^*)\n\\]\nbe the Variable-Interaction Graph. There is one node for each state variable, so \\(|V|=N\\).\nA directed edge\n\\[\nj\\to i\n\\]\nexists if and only if there is some admissible state \\(u\\) for which\n\\[\n\\frac{\\delta F_i}{\\delta u_j}(u)\\not\\equiv 0.\n\\]\nEquivalently,\n\\[\n(j\\to i)\\notin E^*\n\\quad\\Longleftrightarrow\\quad\n\\frac{\\delta F_i}{\\delta u_j}(u)\\equiv0\n\\text{ for all admissible }u.\n\\]\nIn ordinary language, an edge \\(j\\to i\\) means:\n\nchanging variable \\(u_j\\) can change the instantaneous evolution law for variable \\(u_i\\).\n\nThis is stronger than correlation. It comes from the governing operator itself.\nThe graph contains self-interactions and cross-variable interactions:\n\\[\nE^*=E_{\\mathrm{self}}\\cup E_{\\mathrm{cross}}.\n\\]\nThe important sparsity regime is\n\\[\n|E_{\\mathrm{cross}}|\\ll N(N-1),\n\\]\nmeaning that the real physics couples only a small fraction of all possible variable pairs.\n\n\n\n\n\n\nFigure 1: The Variable-Interaction Graph used in the 2-D morphogen benchmark. Each node is a physical variable and each directed connection is a mechanistic dependency in the PDE system.\n\n\n\n\nA crucial scope condition: explicit-evolution systems\nThe theory requires the system to have explicit evolution form. Each evolution equation must be a local differential operator and the system must not contain a global algebraic or elliptic constraint that instantly couples all variables.\nThis matters because the graph is intended to describe how information propagates through the equations during time evolution.\nA canonical counterexample is incompressible Navier–Stokes. The pressure field is obtained from a global Poisson solve, so information is coupled nonlocally at each instant. In that case a simple local variable-interaction graph does not faithfully represent the full dependency mechanism.\nTherefore the current theory covers explicit-evolution PDE systems, including reaction–diffusion and related coupled systems, but does not claim to cover every PDE system."
+  },
+  {
+    "objectID": "projects/vignet/index.html#why-graph-paths-correspond-to-real-physical-dependence",
+    "href": "projects/vignet/index.html#why-graph-paths-correspond-to-real-physical-dependence",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Why graph paths correspond to real physical dependence",
+    "text": "Why graph paths correspond to real physical dependence\nThe first key result is a Path-Dependence Lemma.\nIf there is no directed path from variable \\(u_j\\) to variable \\(u_i\\) in \\(\\mathcal G^*\\), then the future solution component \\(\\mathcal H_i\\) is functionally independent of the initial condition \\(u_j^0\\):\n\\[\n\\frac{\\delta\\mathcal H_i}{\\delta u_j^0}(u^0)\\equiv0.\n\\]\nThis is important because it justifies the graph restriction mathematically. Removing a non-edge from the neural architecture is not merely a heuristic form of pruning: under the explicit-evolution assumptions, an absent graph path corresponds to an absent functional dependency in the true solution operator.\n\n\n\n\n\n\nTipPlain-language interpretation\n\n\n\nIf the equations provide no route by which one variable can influence another, the neural operator does not need an artificial route either."
+  },
+  {
+    "objectID": "projects/vignet/index.html#the-effective-graph-diameter-tells-us-how-deep-the-network-must-be",
+    "href": "projects/vignet/index.html#the-effective-graph-diameter-tells-us-how-deep-the-network-must-be",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "The effective graph diameter tells us how deep the network must be",
+    "text": "The effective graph diameter tells us how deep the network must be\nNot every dependency is direct. Some variables influence one another only through intermediate variables.\nFor observed variables \\(V_{\\mathrm{obs}}\\) and prediction targets \\(V_{\\mathrm{target}}\\), define the effective VIG diameter\n\\[\nD^*\n=\n\\max_{v\\in V_{\\mathrm{target}},\\,\n      u\\in V_{\\mathrm{obs}}\\cap\\mathrm{Anc}(v)}\n\\mathrm{dist}_{\\mathcal G^*}(u,v).\n\\]\nHere \\(\\mathrm{dist}_{\\mathcal G^*}(u,v)\\) is the length of the shortest directed path from \\(u\\) to \\(v\\), and \\(\\mathrm{Anc}(v)\\) is the set of variables that can influence \\(v\\) through some directed path.\nSo \\(D^*\\) is the longest physically relevant dependency chain that information must traverse.\nIf a target depends on an input through two intermediate interactions, a one-layer message-passing network cannot communicate that information far enough. This becomes a theorem rather than a rule of thumb."
+  },
+  {
+    "objectID": "projects/vignet/index.html#the-vignet-architecture",
+    "href": "projects/vignet/index.html#the-vignet-architecture",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "The VIGNet architecture",
+    "text": "The VIGNet architecture\nA VIGNet stores a function-valued representation at every variable node. At macro-layer \\(l\\), node \\(i\\) holds\n\\[\nh_i^{(l)}\\in L^2(\\Omega\\times[0,T]).\n\\]\nThe next representation is\n\\[\nh_i^{(l+1)}(x,t)\n=\n\\sigma\\!\\left(\nW_i^{(l)}h_i^{(l)}(x,t)\n+\n\\sum_{j\\in\\mathcal N^-(i)}\n\\Phi_{ji}^{(l)}[h_j^{(l)}](x,t)\n\\right).\n\\]\nThere are two distinct operations here.\nThe first is a self-update,\n\\[\nW_i^{(l)}h_i^{(l)},\n\\]\nwhich lets a variable transform its own representation.\nThe second is a sum of cross-variable messages,\n\\[\n\\sum_{j\\in\\mathcal N^-(i)}\\Phi_{ji}^{(l)}[h_j^{(l)}],\n\\]\nbut only from variables \\(j\\) for which the VIG contains the edge \\(j\\to i\\).\nThe per-edge operator \\(\\Phi_{ji}^{(l)}\\) is itself a nonlinear neural operator. Its basic integral component is a causal Volterra operator\n\\[\n\\mathcal K_{ji}^{(l)}[f](x,t)\n=\n\\int_0^t\\!\\int_\\Omega\n\\kappa_{ji}^{(l)}(x,y,t,\\tau;\\theta)\n\\,f(y,\\tau)\\,dy\\,d\\tau.\n\\]\nThe integral is causal because it only integrates over \\(\\tau\\le t\\). The kernel \\(\\kappa_{ji}^{(l)}\\) learns how information from variable \\(j\\), location \\(y\\) and earlier time \\(\\tau\\) contributes to variable \\(i\\) at location \\(x\\) and time \\(t\\).\nThe architecture therefore separates two questions:\n\nWhich variables are allowed to communicate? The VIG answers this from the equations.\nWhat functional transformation travels along an allowed edge? The neural operator learns this from data.\n\n\n\n\n\n\nflowchart LR\n    A[Coupled PDE system] --&gt; B[Compute variable dependencies]\n    B --&gt; C[Variable-Interaction Graph]\n    C --&gt; D[One function-valued node per variable]\n    D --&gt; E[Messages only along admissible edges]\n    E --&gt; F[Volterra neural operator on each edge]\n    F --&gt; G[Repeat for L macro-layers]\n    G --&gt; H[Predicted future fields]"
+  },
+  {
+    "objectID": "projects/vignet/index.html#theorem-1-the-graph-restriction-does-not-destroy-expressive-power",
+    "href": "projects/vignet/index.html#theorem-1-the-graph-restriction-does-not-destroy-expressive-power",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Theorem 1: the graph restriction does not destroy expressive power",
+    "text": "Theorem 1: the graph restriction does not destroy expressive power\nA natural concern is that constraining the network to a sparse graph may make it too weak.\nThe universal-approximation theorem shows that, under the stated regularity assumptions, this need not happen.\nIf the observed input set is compact in \\(L^2\\), the solution operator is continuous, \\(s&gt;d/2\\), and the network has at least \\(D^*\\) macro-layers, then for every \\(\\varepsilon&gt;0\\) there exists a VIGNet \\(M^*\\) satisfying\n\\[\n\\sup_{u\\in\\mathcal X_{\\mathrm{obs}}}\n\\left\\|\nM^*(u)-\\mathcal H(u)\n\\right\\|_{(L^2)^{|V_{\\mathrm{target}}|}}\n&lt;\\varepsilon.\n\\]\nThe graph can therefore be sparse without sacrificing universal approximation, provided the architecture is deep enough for information to traverse every physically relevant path.\nThe proof uses operator universal approximation results (Chen and Chen 1995; Kovachki et al. 2023) and constructs the required edgewise function-space mappings while respecting the VIG topology."
+  },
+  {
+    "objectID": "projects/vignet/index.html#theorem-2-too-little-depth-creates-an-irreducible-error",
+    "href": "projects/vignet/index.html#theorem-2-too-little-depth-creates-an-irreducible-error",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Theorem 2: too little depth creates an irreducible error",
+    "text": "Theorem 2: too little depth creates an irreducible error\nThe depth condition is not merely sufficient.\nIf\n\\[\nL&lt;D^*,\n\\]\nand there is no global pooling, no global node mixing, and no skip connection that bypasses the VIG, then\n\\[\n\\inf_{M\\in\\mathcal A_{\\mathcal G^*}^{(L)}}\n\\sup_{u\\in\\mathcal X_{\\mathrm{obs}}}\n\\|M(u)-\\mathcal H(u)\\|&gt;0.\n\\]\nIn other words, some error cannot be removed by more training, more width or better optimisation. Information simply cannot travel far enough through the graph.\n\n\n\n\n\n\nFigure 2: Depth necessity in the morphogen benchmark. Variable D depends on A through a two-hop path. With one macro-layer its error is orders of magnitude larger; at the graph-required depth the error collapses.\n\n\n\nThe 2-D morphogen experiment makes this result visible. Variable \\(D\\) depends on \\(A\\) through\n\\[\nA\\to B\\to D.\n\\]\nAt \\(L=1\\), the model cannot transmit the influence of \\(A\\) to \\(D\\). The manuscript reports a test MSE of approximately\n\\[\n8.5\\times10^{-2}\n\\]\nfor variable \\(D\\). At \\(L=2=D^*\\), the error drops to approximately\n\\[\n1.8\\times10^{-4}.\n\\]\nThat is not simply an optimisation improvement: it is the architectural threshold predicted by the graph."
+  },
+  {
+    "objectID": "projects/vignet/index.html#theorem-3-too-much-depth-can-also-be-harmful",
+    "href": "projects/vignet/index.html#theorem-3-too-much-depth-can-also-be-harmful",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Theorem 3: too much depth can also be harmful",
+    "text": "Theorem 3: too much depth can also be harmful\nIf too few layers are bad, it may seem natural to keep adding more. The theory shows why that can also be undesirable.\nSuppose every macro-layer has Lipschitz constant at least\n\\[\n\\Lambda_l\\ge\\Lambda_{\\min}&gt;1.\n\\]\nThen the global Lipschitz factor grows at least as\n\\[\n\\Lambda_{\\mathrm{global}}\n\\ge\n(\\Lambda_{\\min})^L.\n\\]\nThat exponential amplification enters the covering-number and generalisation bounds. One form of the resulting high-probability gap is\n\\[\n\\left|R(\\widehat M)-\\widehat R_S(\\widehat M)\\right|\n\\lesssim\n\\frac{\n[L(|E^*|+|V|)]^{\\frac{s}{2s+d_\\kappa}}\n(\\Lambda_{\\min})^{\\frac{Ld_\\kappa}{2s+d_\\kappa}}\n}{\nm^{\\frac{s}{2s+d_\\kappa}}\n}\n+\nC_2\\sqrt{\\frac{\\log(1/\\delta)}{m}}.\n\\]\nThe exact constants depend on the hypothesis class and data dependence, but the qualitative message is clear: when layers are expansive, unnecessary depth can make the learned operator less statistically stable.\nSpectral normalisation changes this behaviour. When the per-layer Lipschitz factor is controlled at approximately one, the exponential depth factor becomes polynomial.\n\n\n\n\n\n\nFigure 3: Generalisation gap as VIGNet depth increases in the FitzHugh–Nagumo experiment. Without spectral normalisation the gap grows rapidly; with spectral normalisation it remains below roughly 0.025.\n\n\n\nThis leads to a more precise architectural principle than simply “deeper is better”:\n\nUse enough graph layers to span the longest physical dependency path, and control extra depth if additional computation is required."
+  },
+  {
+    "objectID": "projects/vignet/index.html#hard-structural-physics-and-soft-equation-physics-are-different",
+    "href": "projects/vignet/index.html#hard-structural-physics-and-soft-equation-physics-are-different",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Hard structural physics and soft equation physics are different",
+    "text": "Hard structural physics and soft equation physics are different\nVIGNet can also be trained with an optional physics-informed residual loss:\n\\[\n\\mathcal L_{\\mathrm{total}}(\\theta)\n=\n\\mathcal L_{\\mathrm{data}}(\\theta)\n+\n\\lambda_1\n\\sum_{i=1}^N\n\\left\\|\n\\partial_t M_{\\theta,i}\n-\nF_i(M_{\\theta,1},\\ldots,M_{\\theta,N})\n\\right\\|_{L^2}^2\n+\n\\lambda_2\\mathcal L_{\\mathrm{BC/IC}}(\\theta).\n\\]\nIt is important to separate this from the VIG itself.\nThe VIG is a hard structural prior: it removes inadmissible variable-to-variable pathways from the architecture.\nThe PDE residual is a soft analytical prior: it penalises predictions that fail to satisfy the governing equations.\nThe manuscript treats the hard graph structure as the main mechanism. The PDE residual is optional. In the data-rich experiments, cross-validation drives \\(\\lambda_1\\) close to \\(10^{-6}\\), effectively switching the residual off. It becomes useful in the data-scarce regime.\nFor example, in the FitzHugh–Nagumo ablation, the reported mean test MSE changes as follows:\n\n\n\n\n\n\n\n\n\nTraining samples \\(m\\)\nData loss only\nCross-validated PI loss\nRelative gain\n\n\n\n\n50\n\\(3.81\\times10^{-2}\\)\n\\(1.94\\times10^{-2}\\)\n49%\n\n\n100\n\\(1.47\\times10^{-2}\\)\n\\(9.62\\times10^{-3}\\)\n35%\n\n\n200\n\\(6.83\\times10^{-3}\\)\n\\(5.71\\times10^{-3}\\)\n16%\n\n\n800\n\\(1.22\\times10^{-3}\\)\n\\(1.18\\times10^{-3}\\)\n3%\n\n\n1,600\n\\(4.91\\times10^{-4}\\)\n\\(4.85\\times10^{-4}\\)\n1%\n\n\n\nSo the physics residual is most useful when observations are scarce; the graph prior remains useful because it changes the hypothesis class itself."
+  },
+  {
+    "objectID": "projects/vignet/index.html#why-a-sparse-physical-graph-can-generalise-better",
+    "href": "projects/vignet/index.html#why-a-sparse-physical-graph-can-generalise-better",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Why a sparse physical graph can generalise better",
+    "text": "Why a sparse physical graph can generalise better\nA fully connected \\(N\\)-variable graph contains \\(N(N-1)\\) possible cross-variable edges. A VIG uses only the cross-couplings present in the governing system.\nFor Sobolev-bounded edge kernels, the manuscript obtains the covering-number bound\n\\[\n\\log\\mathcal N\n\\left(\n\\varepsilon,\n\\mathcal H^*_{\\mathrm{VIG}},\nL^2\n\\right)\n\\le\nC\\left[\n|E^*|\n\\left(\\frac{B_\\kappa}{\\varepsilon}\\right)^{d_\\kappa/s}\n+\n|V|\n\\left(\\frac{B_W}{\\varepsilon}\\right)^{(d+1)/s}\n\\right],\n\\]\nwith\n\\[\nd_\\kappa=2d+2.\n\\]\nThe important term is \\(|E^*|\\). Statistical complexity grows with the number of physically admitted interactions, rather than automatically with every possible pair of variables.\nThis is the formal version of a simple intuition:\n\na network should need fewer examples to learn a problem when it is not forced to consider interactions the equations already rule out."
+  },
+  {
+    "objectID": "projects/vignet/index.html#generalisation-when-training-data-are-correlated",
+    "href": "projects/vignet/index.html#generalisation-when-training-data-are-correlated",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Generalisation when training data are correlated",
+    "text": "Generalisation when training data are correlated\nScientific data are often not independent. Consecutive states from a simulation trajectory can be strongly correlated.\nThe theory therefore does not rely only on an i.i.d. assumption. It considers stationary exponentially \\(\\beta\\)-mixing data,\n\\[\n\\beta(k)\\le\\beta_0e^{-\\gamma k}.\n\\]\nThis means dependence decays as observations become farther apart in time.\nUsing a Bernstein inequality for weakly dependent sequences (Merlevède et al. 2011), the manuscript derives the high-probability upper bound\n\\[\nR(\\widehat M)\n\\le\n\\inf_{h\\in\\mathcal H^*_{\\mathrm{VIG}}}R(h)\n+\nC_1\n(|E^*|+|V|)^{\\frac{2s}{2s+d_{\\mathrm{eff}}}}\nm^{-\\frac{2s}{2s+d_{\\mathrm{eff}}}}\n+\nC_2\\sqrt{\\frac{\\log(1/\\delta)}{m}}.\n\\]\nFor the function-space Volterra parameterisation analysed in the paper,\n\\[\nd_{\\mathrm{eff}}\\le2d+2.\n\\]\nThe constants depend on the smoothness bounds and on the strength of temporal dependence, but the rate exponent in \\(m\\) is retained.\n\n\n\n\n\n\nFigure 4: Empirical test error versus training-set size in the FitzHugh–Nagumo benchmark. The fitted learning exponent is approximately 0.58 for the displayed regularity regime.\n\n\n\n\n\n\n\n\n\nFigure 5: Learning curves with independent, moderately mixed and strongly mixed training sequences. Stronger dependence shifts the error upward while preserving similar learning slopes.\n\n\n\nThe experiments vary the regularity of the input distribution. For Matérn input regularity \\(\\alpha\\in\\{2,3,4\\}\\), the reported fitted exponents are\n\\[\n\\widehat r_{\\alpha=2,3,4}\n=\n\\{0.50,0.58,0.66\\},\n\\]\nwith bootstrap 95% intervals\n\\[\n[0.46,0.54],\\quad[0.54,0.62],\\quad[0.62,0.71].\n\\]\nThe leading-order theoretical exponents are approximately\n\\[\n\\{0.50,0.60,0.67\\}.\n\\]\nThe manuscript is careful not to overstate this agreement: the nonlinear FitzHugh–Nagumo regularity argument contains a bounded parabolic smoothing correction, so the experiment is strong evidence for the rate prediction rather than a definitive identification of every regularity constant."
+  },
+  {
+    "objectID": "projects/vignet/index.html#lower-bounds-how-fast-can-any-method-possibly-learn",
+    "href": "projects/vignet/index.html#lower-bounds-how-fast-can-any-method-possibly-learn",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Lower bounds: how fast can any method possibly learn?",
+    "text": "Lower bounds: how fast can any method possibly learn?\nAn upper bound says VIGNet can achieve a certain statistical rate. A lower bound asks whether any estimator could fundamentally do better.\nFor the simpler problem of learning one output component, the manuscript proves\n\\[\n\\inf_{\\widehat f}\n\\sup_{f\\in\\mathcal F}\n\\mathbb E\\left[\n\\|\\widehat f-f\\|_{L^2}^2\n\\right]\n\\ge\nc\\,m^{-\\frac{2s}{2s+d}}.\n\\]\nThat bound captures the cost of recovering an output function but not the full kernel-identification problem of learning an operator.\nUnder an additional input-richness condition, the operator-level lower bound becomes\n\\[\n\\inf_{\\widehat{\\mathcal H}}\n\\sup_{\\mathcal H\\in\\mathcal H^*_{\\mathrm{VIG}}}\nR(\\widehat{\\mathcal H})\n\\ge\nc'\n|E^*_{\\mathrm{cross}}|^{\\frac{2s}{2s+d_{\\mathrm{eff}}}}\nm^{-\\frac{2s}{2s+d_{\\mathrm{eff}}}},\n\\]\nwhere\n\\[\nd_{\\mathrm{eff}}=2d+2.\n\\]\nCombined with the upper bound, this shows that the sample-size exponent\n\\[\n\\frac{2s}{2s+d_{\\mathrm{eff}}}\n\\]\nis minimax-optimal for the analysed function-space hypothesis class under the stated input-richness assumptions.\nThe manuscript also explicitly notes what remains open: the edge-count prefactor is not matched exactly between the upper and lower bounds."
+  },
+  {
+    "objectID": "projects/vignet/index.html#what-if-the-variable-interaction-graph-is-wrong",
+    "href": "projects/vignet/index.html#what-if-the-variable-interaction-graph-is-wrong",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "What if the Variable-Interaction Graph is wrong?",
+    "text": "What if the Variable-Interaction Graph is wrong?\nA practical method cannot assume that the graph will always be perfectly specified.\nLet the graph used by the model be\n\\[\n\\widehat{\\mathcal G}=(V,\\widehat E).\n\\]\nSplit the graph errors into\n\\[\nE_{\\mathrm{miss}}=E^*\\setminus\\widehat E\n\\]\nand\n\\[\nE_{\\mathrm{spur}}=\\widehat E\\setminus E^*.\n\\]\nThe analysis reveals an important asymmetry.\n\nMissing a true edge is dangerous\nIf a missing edge breaks every path by which an observed variable can influence a target, then even an arbitrarily deep VIGNet on the incorrect graph has a non-zero approximation floor:\n\\[\n\\inf_{M\\in\\mathcal A_{\\widehat{\\mathcal G}}^{(\\infty)}}\n\\sup_{u\\in\\mathcal X_{\\mathrm{obs}}}\n\\|M(u)-\\mathcal H(u)\\|_{L^2}\n\\ge\n\\frac14\\eta\\varepsilon_0.\n\\]\nAdding more layers cannot repair a physical dependency that the graph forbids.\n\n\nAdding an unnecessary edge is less serious\nIf\n\\[\n\\widehat E\\supseteq E^*,\n\\]\nso all true interactions remain present, then the correct VIGNet class is contained within the larger class. Spurious-edge kernels can simply be set to zero.\nThe cost is statistical rather than representational. The generalisation prefactor inflates by at most\n\\[\n\\left(\n1+\\frac{|E_{\\mathrm{spur}}|}{|E^*|}\n\\right)^{\\frac{2s}{2s+d_{\\mathrm{eff}}}}.\n\\]\nThis produces a practical conservative-superset principle:\n\nIf a physical interaction is uncertain, it is safer to include the plausible edge than to remove a true interaction.\n\nThe empirical probe supports the same distinction. On the morphogen benchmark, removing one true edge \\(A\\to B\\) gives test MSE\n\\[\n5.2\\times10^{-2},\n\\]\nroughly \\(290\\times\\) worse than the correctly specified VIGNet. Adding two spurious edges gives approximately\n\\[\n1.4\\times10^{-4},\n\\]\nonly about \\(1.16\\times\\) worse than the correct graph.\nThis is one of the most practically useful parts of the theory because it tells us how to behave when the governing interaction structure is only partially known."
+  },
+  {
+    "objectID": "projects/vignet/index.html#experiment-1-a-coupled-elastic-system",
+    "href": "projects/vignet/index.html#experiment-1-a-coupled-elastic-system",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Experiment 1: a coupled elastic system",
+    "text": "Experiment 1: a coupled elastic system\nThe first benchmark has three variables: displacement \\(u\\), velocity \\(v\\) and auxiliary stress \\(w\\):\n\\[\n\\partial_t u=v,\n\\]\n\\[\n\\partial_t v\n=\nD_v\\partial_{xx}v-k_1u+k_2w,\n\\]\n\\[\n\\partial_t w\n=\nD_w\\partial_{xx}w+k_3v-k_4w.\n\\]\nThe effective graph diameter is\n\\[\nD^*=2.\n\\]\nThree graph choices are compared:\n\nNodewise: no cross-variable edges;\nVIG-local: only the true physical edges;\nComplete graph: every possible cross-variable edge.\n\nThe one-step RMSE results reported in the manuscript are:\n\n\n\n\n\n\n\n\n\nModel\nParameters\nOne-step RMSE\nRollout RMSE at \\(T=80\\)\n\n\n\n\nNodewise\n512\n\\(1.15\\pm0.13\\times10^{-2}\\)\n0.19\n\n\nVIG-local\n1,268\n\\(\\mathbf{1.59\\pm0.18\\times10^{-3}}\\)\n\\(\\mathbf{0.02}\\)\n\n\nComplete graph\n24,704\n\\(4.60\\pm0.51\\times10^{-3}\\)\n0.05\n\n\n\nThe VIG-local model therefore uses far fewer parameters than the complete graph while producing better long-horizon behaviour.\n\n\n\n\n\n\nFigure 6: Rollout displacement RMSE in the coupled elastic benchmark. The nodewise model diverges, the complete graph remains more stable, and the VIG-local model has the lowest long-horizon error.\n\n\n\nThe result illustrates both sides of the structural prior. The nodewise model is too sparse and blocks necessary interactions. The complete graph is expressive but statistically and computationally wasteful. The physical graph occupies the useful middle ground."
+  },
+  {
+    "objectID": "projects/vignet/index.html#experiment-2-a-two-dimensional-morphogen-pathway",
+    "href": "projects/vignet/index.html#experiment-2-a-two-dimensional-morphogen-pathway",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Experiment 2: a two-dimensional morphogen pathway",
+    "text": "Experiment 2: a two-dimensional morphogen pathway\nThe second benchmark contains five variables:\n\\[\n\\partial_t A=D_A\\nabla^2A+S(x,y),\n\\]\n\\[\n\\partial_t B=D_B\\nabla^2B+k_{AB}A-\\gamma_BB,\n\\]\n\\[\n\\partial_t C=D_C\\nabla^2C+k_{AC}A-\\gamma_CC,\n\\]\n\\[\n\\partial_t D=k_{BD}B-\\gamma_DD,\n\\]\n\\[\n\\partial_t E=k_{CE}C-\\gamma_EE.\n\\]\nThe graph contains the two-hop dependencies\n\\[\nA\\to B\\to D,\n\\qquad\nA\\to C\\to E,\n\\]\nso\n\\[\nD^*=2.\n\\]\nThis experiment is especially useful because the graph has a transparent biological interpretation: a source morphogen drives intermediate variables, which then regulate downstream variables.\nThe parameter-matched comparison uses models around a 5.2K-parameter ceiling. The manuscript reports that VIGNet achieves approximately 32-fold and 71-fold lower MSE than the parameter-matched Small-FNO and Small-DeepONet baselines. Full-capacity FNO and DeepONet use roughly 1.2M and 2.7M parameters respectively and still trail the VIGNet result in the reported benchmark.\nFor variable \\(D\\), the graph-depth result is particularly sharp:\n\\[\nL=1:\\quad 8.5\\pm0.9\\times10^{-2},\n\\]\n\\[\nL=2:\\quad 1.8\\pm0.2\\times10^{-4}.\n\\]\nThis is the empirical counterpart of the depth lower bound."
+  },
+  {
+    "objectID": "projects/vignet/index.html#experiment-3-fitzhughnagumo",
+    "href": "projects/vignet/index.html#experiment-3-fitzhughnagumo",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Experiment 3: FitzHugh–Nagumo",
+    "text": "Experiment 3: FitzHugh–Nagumo\nThe third benchmark uses the coupled FitzHugh–Nagumo system\n\\[\n\\partial_t u\n=\nD_u\\partial_{xx}u\n+u(u-a)(1-u)-v,\n\\]\n\\[\n\\partial_t v\n=\n\\epsilon(u-\\gamma v).\n\\]\nBecause each variable directly influences the other, the VIG is complete for \\(N=2\\) and\n\\[\nD^*=1.\n\\]\nThis makes it a useful stress test for the depth-generalisation theorem rather than graph sparsity.\nWithout spectral normalisation, the observed generalisation gap grows approximately as\n\\[\n1.3^L.\n\\]\nWith spectral normalisation, it remains below approximately\n\\[\n0.025.\n\\]\nThe same experiment also tests the statistical-rate theory with correlated training data and different input smoothness levels."
+  },
+  {
+    "objectID": "projects/vignet/index.html#computational-scaling",
+    "href": "projects/vignet/index.html#computational-scaling",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Computational scaling",
+    "text": "Computational scaling\nFor naive Volterra integration on a discretised spatial grid of size \\(|\\Omega_h|\\) with \\(T_h\\) temporal nodes, the cost per macro-layer is\n\\[\n\\mathcal O\\!\\left(\n(|E_{\\mathrm{self}}|+|E_{\\mathrm{cross}}|)\n|\\Omega_h|^2T_h^2\n\\right).\n\\]\nWith a rank-\\(r\\) kernel parameterisation, the manuscript gives\n\\[\n\\mathcal O\\!\\left(\n(|E^*|+|V|)\nr|\\Omega_h|T_h\n\\right).\n\\]\nAgain, the edge count matters directly. A sparse VIG reduces both statistical complexity and computational work.\nOn the 2-D morphogen benchmark, the reported single-A100 training times are approximately:\n\n\n\nModel\nParameters\nTime per epoch\n\n\n\n\nVIGNet\nabout 5.2K\n2.4 min\n\n\nFNO\nabout 1.2M\n11.7 min\n\n\nDeepONet\nabout 2.7M\n19.3 min\n\n\n\nThese are benchmark-specific measurements rather than universal runtime guarantees, but they illustrate the computational consequence of not modelling interactions that the PDE system does not contain."
+  },
+  {
+    "objectID": "projects/vignet/index.html#what-the-theory-does-and-does-not-establish",
+    "href": "projects/vignet/index.html#what-the-theory-does-and-does-not-establish",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "What the theory does and does not establish",
+    "text": "What the theory does and does not establish\nThe mathematical results are deliberately conditional on explicit assumptions.\nWhat is established in the manuscript:\n\nthe VIG is defined from the Fréchet derivative of the explicit-evolution operator;\nabsent directed paths imply absent functional dependence under the stated assumptions;\n\\(L\\ge D^*\\) is sufficient for universal approximation;\n\\(L&lt;D^*\\) creates irreducible approximation error for a VIG-respecting architecture;\nexpansive excess depth worsens the generalisation bound exponentially unless Lipschitz growth is controlled;\nVIG sparsity reduces the covering-number complexity through \\(|E^*|\\);\nexponentially \\(\\beta\\)-mixing observations admit the stated learning-rate upper bound;\nunder input-richness assumptions, the operator-level lower bound matches the sample-size exponent;\nmissing true graph edges and adding spurious edges have fundamentally different consequences.\n\nWhat is not established:\n\nthe current VIG construction is not a complete treatment of constraint-coupled systems such as incompressible Navier–Stokes;\nthe graph is not automatically discovered from data in the current theory;\nthe Sobolev regularisation proposition does not apply to every hyperbolic system;\nthe exact edge-count prefactors of the upper and lower minimax bounds are not fully matched;\nthe universal-approximation result is existential and does not yet give a complete practical prescription for kernel width, rank or number of per-edge sub-layers;\nthe three experiments are controlled scientific benchmarks, not evidence that one architecture will dominate every neural operator on every PDE.\n\nThese boundaries are important. The value of the work is not a claim that graph structure solves every operator-learning problem. It is a precise statement about when known variable-level coupling structure can be converted into architectural, statistical and computational advantages."
+  },
+  {
+    "objectID": "projects/vignet/index.html#why-this-matters",
+    "href": "projects/vignet/index.html#why-this-matters",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "Why this matters",
+    "text": "Why this matters\nNeural operators are increasingly used when directly solving a physical model is expensive. But many scientific systems are neither completely independent nor completely coupled. They have structured interactions.\nThe VIG gives us a way to represent those interactions at the level that scientists often reason about them: which physical quantities actually influence which others?\nThat creates a bridge between mechanistic modelling and machine learning:\n\nthe equations determine the admissible dependency graph;\nthe graph determines where information may travel;\ngraph distances determine the minimum useful network depth;\ngraph sparsity controls part of the statistical and computational complexity;\nneural operators learn the difficult functional transformations along the allowed interactions;\noptional equation residuals can add further regularisation when data are scarce.\n\nThe broader research question is therefore not simply how to build a more accurate network. It is:\n\nHow much of a scientific model’s known structure should be encoded before learning begins, and what can we prove when we do so?\n\nVariable-Interaction Graphs provide one rigorous answer for coupled explicit-evolution PDE systems."
+  },
+  {
+    "objectID": "projects/vignet/index.html#references",
+    "href": "projects/vignet/index.html#references",
+    "title": "Variable-Interaction Graph Networks (VIGNet)",
+    "section": "References",
+    "text": "References\n\n\nChen, Tianping, and Hong Chen. 1995. “Universal Approximation to Nonlinear Operators by Neural Networks with Arbitrary Activation Functions.” Neural Networks 8 (4): 551–58.\n\n\nKovachki, Nikola et al. 2023. “Neural Operator: Learning Maps Between Function Spaces with Applications to PDEs.” Journal of Machine Learning Research 24 (89): 1–97.\n\n\nLi, Zongyi et al. 2021. “Fourier Neural Operator for Parametric Partial Differential Equations.” International Conference on Learning Representations.\n\n\nLu, Lu et al. 2021. “Learning Nonlinear Operators via DeepONet Based on the Universal Approximation Theorem of Operators.” Nature Machine Intelligence 3 (3): 218–29.\n\n\nMerlevède, Florence, Magda Peligrad, and Emmanuel Rio. 2011. “A Bernstein Type Inequality and Moderate Deviations for Weakly Dependent Sequences.” Probability Theory and Related Fields 151 (3): 435–74."
+  },
+  {
+    "objectID": "research.html",
+    "href": "research.html",
+    "title": "Research",
+    "section": "",
+    "text": "My research is organised around four connected themes."
+  },
+  {
+    "objectID": "research.html#scientific-machine-learning",
+    "href": "research.html#scientific-machine-learning",
+    "title": "Research",
+    "section": "Scientific machine learning",
+    "text": "Scientific machine learning\nCombining data-driven learning with mechanistic or physical knowledge, particularly for systems in which purely black-box prediction is insufficient. Current interests include physics-informed models, digital twins, graph neural networks, neural operators, inverse modelling and interpretable physical latent states."
+  },
+  {
+    "objectID": "research.html#learning-and-decision-making-under-uncertainty",
+    "href": "research.html#learning-and-decision-making-under-uncertainty",
+    "title": "Research",
+    "section": "Learning and decision-making under uncertainty",
+    "text": "Learning and decision-making under uncertainty\nMethods for allocating limited observations or actions intelligently. This includes sequential decision-making, bandits, partial monitoring, online change detection and adaptive allocation."
+  },
+  {
+    "objectID": "research.html#uncertainty-and-reliability",
+    "href": "research.html#uncertainty-and-reliability",
+    "title": "Research",
+    "section": "Uncertainty and reliability",
+    "text": "Uncertainty and reliability\nUnderstanding not only what a model predicts, but how strongly the evidence supports that prediction, what information produced it, and when the model is being asked to extrapolate beyond what has been established."
+  },
+  {
+    "objectID": "research.html#autonomous-science",
+    "href": "research.html#autonomous-science",
+    "title": "Research",
+    "section": "Autonomous science",
+    "text": "Autonomous science\nResearch into systems that decide which experiment, simulation or observation should happen next, particularly when scientific computation is expensive and the aim is defensible knowledge rather than predictive performance alone."
+  }
+]
