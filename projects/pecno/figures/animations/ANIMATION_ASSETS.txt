@@ -1,0 +1,19 @@
+PeCNO density animation assets
+
+The public animation matrix is intended to compare two held-out Eddington ratios at three spatial windows:
+
+  zoom250 : full 500 kpc domain
+  zoom50  : 100 kpc central box
+  zoom10  : 20 kpc central box
+
+For each zoom, provide lambda=0.02 (interpolation) and lambda=0.2 (extrapolation).
+
+Expected original GIF filenames:
+  density-zoom250-lambda-0p02.gif
+  density-zoom250-lambda-0p2.gif
+  density-zoom50-lambda-0p02.gif
+  density-zoom50-lambda-0p2.gif
+  density-zoom10-lambda-0p02.gif
+  density-zoom10-lambda-0p2.gif
+
+The currently supplied 'Density_animation_10_Edd02(1).gif' is PNG data rather than an animated GIF, so it is included as density-zoom10-lambda-0p02-preview.png.

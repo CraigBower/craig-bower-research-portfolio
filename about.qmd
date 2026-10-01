@@ -1,0 +1,11 @@
+---
+title: "About"
+---
+
+I am a mathematician and machine-learning researcher working on scientific AI, sequential decision-making and uncertainty-aware intelligent systems.
+
+My research has spanned high-energy physics, scientific machine learning, digital twins, online change detection, environmental modelling and adaptive scientific computation. Across these areas, I am particularly interested in methods that have to operate with incomplete observations, expensive data and systems whose behaviour changes through time.
+
+A recurring aim in my work is to connect mathematical and algorithmic ideas with real scientific problems while remaining explicit about uncertainty, assumptions and what the available evidence does — and does not — support.
+
+This portfolio is designed to explain that work to both specialist and non-specialist readers.

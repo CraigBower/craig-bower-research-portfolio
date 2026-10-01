@@ -1,0 +1,89 @@
+:root {
+  --cb-navy: #0b2341;
+  --cb-blue: #1f5f99;
+  --cb-green: #2f7d4f;
+  --cb-ink: #17202a;
+  --cb-soft: #f4f7fa;
+}
+
+body {
+  color: var(--cb-ink);
+  font-size: 1.04rem;
+  line-height: 1.72;
+}
+
+.navbar {
+  box-shadow: 0 1px 8px rgba(0,0,0,.08);
+}
+
+h1, h2, h3 {
+  color: var(--cb-navy);
+  font-weight: 700;
+}
+
+.hero {
+  padding: 4.5rem 0 3.5rem 0;
+  border-bottom: 1px solid #e6ebf0;
+  margin-bottom: 2.5rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.6rem);
+  margin-bottom: 0.7rem;
+}
+
+.hero .tagline {
+  font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+  color: #425466;
+  max-width: 850px;
+}
+
+.hero .question {
+  margin-top: 1.6rem;
+  padding-left: 1.1rem;
+  border-left: 4px solid var(--cb-green);
+  font-size: 1.15rem;
+  max-width: 850px;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.2rem;
+  margin: 1.5rem 0 2.5rem 0;
+}
+
+.project-card {
+  border: 1px solid #dfe6ed;
+  border-radius: 12px;
+  padding: 1.4rem;
+  background: white;
+  box-shadow: 0 4px 18px rgba(20,45,70,.05);
+}
+
+.project-card h3 { margin-top: 0; }
+.project-card .status { color: #667788; font-size: .92rem; }
+
+.callout-important {
+  border-left-color: var(--cb-green) !important;
+}
+
+.figure-caption {
+  color: #586674;
+}
+
+.quarto-title-banner {
+  background: linear-gradient(120deg, #0b2341, #123d68);
+  color: white;
+}
+
+.quarto-title-banner h1,
+.quarto-title-banner .subtitle,
+.quarto-title-banner .quarto-title-meta {
+  color: white;
+}
+
+blockquote {
+  border-left: 4px solid var(--cb-blue);
+  color: #334455;
+}

@@ -1,0 +1,43 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Craig Bower"
+  description: "Scientific AI, machine learning and decision-making under uncertainty"
+  navbar:
+    background: "#0b2341"
+    foreground: "#ffffff"
+    left:
+      - href: index.qmd
+        text: Home
+      - href: research.qmd
+        text: Research
+      - href: projects.qmd
+        text: Projects
+      - href: writing.qmd
+        text: Writing
+      - href: about.qmd
+        text: About
+    right:
+      - icon: github
+        href: https://github.com/
+        aria-label: GitHub
+      - icon: linkedin
+        href: https://www.linkedin.com/
+        aria-label: LinkedIn
+  page-footer:
+    left: "© 2026 Craig Bower"
+    right: "Scientific AI · Decision-making under uncertainty"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    smooth-scroll: true
+    link-external-newwindow: true
+    code-copy: true
+
+execute:
+  freeze: auto

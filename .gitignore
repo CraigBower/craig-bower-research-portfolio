@@ -1,0 +1,11 @@
+_site/
+.quarto/
+*.tmp
+*.log
+
+/.quarto/
+**/*.quarto_ipynb
+
+# Large original PeCNO animation assets
+projects/pecno/figures/animations/*.gif
+projects/pecno/figures/Density_animation_*.mp4

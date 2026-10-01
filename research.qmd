@@ -1,0 +1,21 @@
+---
+title: "Research"
+---
+
+My research is organised around four connected themes.
+
+## Scientific machine learning
+
+Combining data-driven learning with mechanistic or physical knowledge, particularly for systems in which purely black-box prediction is insufficient. Current interests include physics-informed models, digital twins, graph neural networks, neural operators, inverse modelling and interpretable physical latent states.
+
+## Learning and decision-making under uncertainty
+
+Methods for allocating limited observations or actions intelligently. This includes sequential decision-making, bandits, partial monitoring, online change detection and adaptive allocation.
+
+## Uncertainty and reliability
+
+Understanding not only what a model predicts, but how strongly the evidence supports that prediction, what information produced it, and when the model is being asked to extrapolate beyond what has been established.
+
+## Autonomous science
+
+Research into systems that decide which experiment, simulation or observation should happen next, particularly when scientific computation is expensive and the aim is defensible knowledge rather than predictive performance alone.

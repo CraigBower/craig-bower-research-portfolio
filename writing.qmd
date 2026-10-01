@@ -1,0 +1,16 @@
+---
+title: "Writing"
+---
+
+This section will contain accessible technical essays, research case studies and research-notebook pieces. The aim is to explain not only successful results, but also the reasoning, uncertainty, failure modes and scientific decisions behind the work.
+
+## Case studies
+
+- [HyperFlux: Building a Scientific Digital Twin That Learns](projects/hyperflux/index.qmd)
+
+## Planned research notes
+
+- When a scientifically plausible transfer model fails
+- What does it mean for a machine-learning model to "learn" a physical parameter?
+- What is a scientific computation worth?
+- Detecting change when you cannot monitor everything

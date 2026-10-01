@@ -1,0 +1,31 @@
+---
+title: "Projects"
+---
+
+## HyperFlux
+
+[Read the full case study →](projects/hyperflux/index.qmd)
+
+A self-learning scientific digital twin for carbon exchange in intensively managed lowland peat agriculture. The work combines explicit ecosystem physics, graph-based learning, probabilistic prediction and sequential field-specific adaptation.
+
+## Variable-Interaction Graph Networks (VIGNet)
+
+[Read the full case study →](projects/vignet/index.qmd)
+
+A graph neural-operator framework in which the graph is derived from the governing PDEs: nodes are physical variables and edges are genuine mechanistic dependencies. The project establishes universal-approximation, graph-depth, dependent-data generalisation and graph-mis-specification results, and validates them on coupled elastic, morphogen and FitzHugh--Nagumo systems.
+
+## ABBDA
+
+[Read the full case study →](projects/abbda/index.qmd)
+
+Adaptive sensing for quickest change detection under hard observation budgets. ABBDA learns how to allocate a fixed number of observations across massive data streams while preserving coverage, detecting persistent change and identifying its source.
+
+## Adaptive Scientific Campaigns
+
+Portfolio case study in preparation. A programme of research into the value of scientific computations and the design of self-steering simulation campaigns.
+
+## Physics-Enforced Continuous Neural Operator (PeCNO)
+
+[Read the full case study →](projects/pecno/index.qmd)
+
+A continuous surrogate for idealised AGN jet simulations that maps space, time and Eddington ratio to hydrodynamic fields, enforces selected physical constraints after prediction, diagnoses conformal-calibration failure under parameter and temporal shift, and recalibrates uncertainty online using adaptive conformal inference.

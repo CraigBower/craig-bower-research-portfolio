@@ -1,0 +1,89 @@
+VIGNET WEBSITE INTEGRATION
+==========================
+
+This patch creates the new project page:
+
+  projects/vignet/index.qmd
+
+and its figures:
+
+  projects/vignet/figures/
+
+The scientific content is based on 06052026.tex in the supplied VIGNet archive. That file was used as the authoritative manuscript because it is the latest date-labelled complete manuscript and contains the final theory, mis-specification results, and three-benchmark experimental summary. The unrelated main.tex "Best Paper blueprint" was not used as the source of claims.
+
+1. COPY THE PROJECT FOLDER
+--------------------------
+Copy:
+
+  projects/vignet/
+
+into the root website repository under:
+
+  projects/vignet/
+
+2. APPEND THE REFERENCES
+------------------------
+Append the contents of:
+
+  references_vignet_append.bib
+
+to the root website file:
+
+  references.bib
+
+The VIGNet keys are prefixed with vig_ to minimise collision with existing HyperFlux, PeCNO and ABBDA references.
+
+3. ADD THE HOMEPAGE PROJECT CARD
+--------------------------------
+Add a new project block to index.qmd. Use:
+
+### [Variable-Interaction Graph Networks (VIGNet)](projects/vignet/index.qmd)
+
+Learning coupled physical systems from the interactions that actually exist. VIGNet builds neural-operator connectivity directly from PDE variable dependencies, with provable results for approximation, required depth, generalisation and graph mis-specification.
+
+If your homepage uses a status line, do not mark this as "in preparation" unless you want that wording explicitly.
+
+Suggested project ordering:
+
+  HyperFlux
+  Physics-Enforced Continuous Neural Operator (PeCNO)
+  Variable-Interaction Graph Networks (VIGNet)
+  ABBDA
+  Adaptive Scientific Campaigns
+
+4. ADD TO projects.qmd
+----------------------
+Add:
+
+## Variable-Interaction Graph Networks (VIGNet)
+
+[Read the full case study →](projects/vignet/index.qmd)
+
+A graph neural-operator framework in which the graph is derived from the governing PDEs: nodes are physical variables and edges are genuine mechanistic dependencies. The project establishes universal-approximation, graph-depth, dependent-data generalisation and graph-mis-specification results, and validates them on coupled elastic, morphogen and FitzHugh--Nagumo systems.
+
+5. OPTIONAL LATEST-WRITING LINK
+-------------------------------
+Under the homepage "Latest writing" section, add:
+
+- [Variable-Interaction Graph Networks: learning the interactions that actually exist](projects/vignet/index.qmd)
+
+6. CLEAN RENDER
+---------------
+From the website root in PowerShell:
+
+  Ctrl+C
+
+then:
+
+  Remove-Item ".\_site\projects\vignet" -Recurse -Force -ErrorAction SilentlyContinue
+  Remove-Item ".\.quarto" -Recurse -Force -ErrorAction SilentlyContinue
+  quarto render
+  quarto preview
+
+The project route should be:
+
+  /projects/vignet/
+
+7. NOTE ABOUT THIS INSTRUCTION FILE
+-----------------------------------
+This file is .txt deliberately. Do not rename it to .md inside the Quarto project root, otherwise Quarto may attempt to render it as a site page.
